@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="bg-black text-white font-cinzel">
+<body class="bg-black text-lime-400 font-cinzel">
   <div id="background" class="fixed inset-0 z-0"></div>
   <div id="root" class="relative z-10"></div>
   <script type="text/babel">
@@ -19,98 +19,56 @@
 
     function App() {
       const [activeSection, setActiveSection] = useState('about');
-      const [discordStatus, setDiscordStatus] = useState(null);
-      const [statusError, setStatusError] = useState(null);
+      const [viewCount, setViewCount] = useState(0);
 
       // Sound effects
       const hoverSound = new Audio('https://cdn.pixabay.com/audio/2023/08/08/audio_9b8a7b6e5b.mp3'); // Dragon growl
       const clickSound = new Audio('https://cdn.pixabay.com/audio/2023/08/08/audio_7e1b7f6e5b.mp3'); // Magical chime
 
-      // Fetch Discord status via Lanyard API
+      // View counter
       useEffect(() => {
-        const discordId = '1196398244662628394';
-        let ws;
-        let reconnectAttempts = 0;
-        const maxReconnectAttempts = 5;
-        const reconnectDelay = 5000; // 5 seconds
-
-        const connectWebSocket = () => {
-          ws = new WebSocket('wss://api.lanyard.rest/socket');
-          console.log('Attempting to connect to Lanyard WebSocket...');
-
-          ws.onmessage = (event) => {
-            const data = JSON.parse(event.data);
-            console.log('Lanyard WebSocket message received:', data);
-            if (data.op === 0 && (data.t === 'PRESENCE_UPDATE' || data.t === 'INIT_STATE')) {
-              setDiscordStatus(data.d);
-              setStatusError(null);
-              reconnectAttempts = 0; // Reset on successful update
-            }
-          };
-
-          ws.onopen = () => {
-            console.log('Lanyard WebSocket connected');
-            ws.send(JSON.stringify({ op: 2, d: { subscribe_to_id: discordId } }));
-            setInterval(() => {
-              if (ws.readyState === WebSocket.OPEN) {
-                ws.send(JSON.stringify({ op: 3 }));
-                console.log('Sent heartbeat');
-              }
-            }, 30000);
-          };
-
-          ws.onerror = (error) => {
-            console.error('Lanyard WebSocket error:', error);
-            setStatusError('Failed to connect to Discord status service');
-          };
-
-          ws.onclose = () => {
-            console.log('Lanyard WebSocket closed');
-            if (reconnectAttempts < maxReconnectAttempts) {
-              reconnectAttempts++;
-              console.log(`Reconnecting attempt ${reconnectAttempts}/${maxReconnectAttempts} in ${reconnectDelay}ms...`);
-              setTimeout(connectWebSocket, reconnectDelay);
-            } else {
-              setStatusError('Unable to connect to Discord status after multiple attempts');
-            }
-          };
-        };
-
-        connectWebSocket();
-
-        return () => {
-          if (ws) ws.close();
-          console.log('Lanyard WebSocket cleanup');
-        };
+        try {
+          const views = parseInt(localStorage.getItem('pageViews') || '0') + 1;
+          localStorage.setItem('pageViews', views);
+          setViewCount(views);
+          console.log('Page views:', views);
+        } catch (error) {
+          console.error('Error updating view count:', error);
+        }
       }, []);
 
       const playHoverSound = () => {
         hoverSound.currentTime = 0;
-        hoverSound.play().catch(() => {});
+        hoverSound.play().catch((error) => console.error('Hover sound error:', error));
       };
 
       const playClickSound = () => {
         clickSound.currentTime = 0;
-        clickSound.play().catch(() => {});
+        clickSound.play().catch((error) => console.error('Click sound error:', error));
       };
 
       const sections = {
         about: (
-          <section className="min-h-screen flex flex-col justify-center items-center text-center px-4 animate-dragon-glow">
-            <h2 className="text-5xl font-bold mb-6 bg-gradient-to-r from-gray-200 to-gray-400 bg-clip-text text-transparent animate-pulse">
+          <section className="min-h-screen flex flex-col justify-center items-center text-center px-4 animate-lime-glow">
+            <img
+              src="https://cdn.discordapp.com/attachments/1333377158265049099/1403474474900394196/IMG_20250808_015418_753.webp?ex=6897aef6&is=68965d76&hm=e60804770aedeee01d01fb31f8fab78dbaa1c22ea3b7ddef328f2ca9d77792c3&" // Replace with your Discord image link
+              alt="Profile Picture"
+              className="w-32 h-32 rounded-full mb-6 border-4 border-lime-400 shadow-lime-600/50 object-cover"
+            />
+            <h2 className="text-5xl font-bold mb-6 bg-gradient-to-r from-lime-400 to-lime-600 bg-clip-text text-transparent animate-pulse">
               About Me
             </h2>
-            <p className="text-xl max-w-3xl dragon-border p-6 rounded-lg bg-black/70">
+            <p className="text-xl max-w-3xl lime-border p-6 rounded-lg bg-black/70">
               Hi there, im Cam also known as tps.dll on most platforms and im an 18 year old Website and Discord Bot Developer based out of the UK with a deep passion for coding and gaming!
             </p>
           </section>
         ),
         hobbies: (
-          <section className="min-h-screen flex flex-col justify-center items-center text-center px-4 animate-dragon-glow">
-            <h2 className="text-5xl font-bold mb-6 bg-gradient-to-r from-gray-200 to-gray-400 bg-clip-text text-transparent animate-pulse">
+          <section className="min-h-screen flex flex-col justify-center items-center text-center px-4 animate-lime-glow">
+            <h2 className="text-5xl font-bold mb-6 bg-gradient-to-r from-lime-400 to-lime-600 bg-clip-text text-transparent animate-pulse">
               My Hobbies
             </h2>
-            <ul className="text-xl max-w-3xl space-y-4 dragon-border p-6 rounded-lg bg-black/70">
+            <ul className="text-xl max-w-3xl space-y-4 lime-border p-6 rounded-lg bg-black/70">
               <li className="hover:scale-105 transition-transform">🐉 Gaming: I play games such as Minecraft, Fortnite and COD</li>
               <li className="hover:scale-105 transition-transform">📜 Sleep: I enjoy sleeping a lot!</li>
               <li className="hover:scale-105 transition-transform">🎨 Exploring: I sometimes enjoy going out and just walking around for no reason whatsoever</li>
@@ -119,66 +77,58 @@
           </section>
         ),
         likes: (
-          <section className="min-h-screen flex flex-col justify-center items-center text-center px-4 animate-dragon-glow">
-            <h2 className="text-5xl font-bold mb-6 bg-gradient-to-r from-gray-200 to-gray-400 bg-clip-text text-transparent animate-pulse">
+          <section className="min-h-screen flex flex-col justify-center items-center text-center px-4 animate-lime-glow">
+            <h2 className="text-5xl font-bold mb-6 bg-gradient-to-r from-lime-400 to-lime-600 bg-clip-text text-transparent animate-pulse">
               Likes & Dislikes
             </h2>
-            <div className="text-xl max-w-3xl space-y-6 dragon-border p-6 rounded-lg bg-black/70">
+            <div className="text-xl max-w-3xl space-y-6 lime-border p-6 rounded-lg bg-black/70">
               <div>
-                <h3 className="text-2xl font-semibold text-gray-200">Likes</h3>
+                <h3 className="text-2xl font-semibold text-lime-400">Likes</h3>
                 <p>I like sleeping, eating, gaming and my cats.</p>
               </div>
               <div>
-                <h3 className="text-2xl font-semibold text-gray-400">Dislikes</h3>
+                <h3 className="text-2xl font-semibold text-lime-600">Dislikes</h3>
                 <p>I dislike spicy food and early mornings.</p>
               </div>
             </div>
           </section>
         ),
         info: (
-          <section className="min-h-screen flex flex-col justify-center items-center text-center px-4 animate-dragon-glow">
-            <h2 className="text-5xl font-bold mb-6 bg-gradient-to-r from-gray-200 to-gray-400 bg-clip-text text-transparent animate-pulse">
+          <section className="min-h-screen flex flex-col justify-center items-center text-center px-4 animate-lime-glow">
+            <h2 className="text-5xl font-bold mb-6 bg-gradient-to-r from-lime-400 to-lime-600 bg-clip-text text-transparent animate-pulse">
               Additional Info
             </h2>
-            <div className="text-xl max-w-3xl space-y-4 dragon-border p-6 rounded-lg bg-black/70">
+            <div className="text-xl max-w-3xl space-y-4 lime-border p-6 rounded-lg bg-black/70">
               <p><strong>Date of Birth:</strong> 10.02.2007</p>
               <p><strong>Discord Username:</strong> tps.dll</p>
-              <p><strong>Discord Server:</strong> <a href="https://dsc.gg/tpsdll" className="text-gray-200 hover:text-gray-400 transition-colors">Join my Discord!</a></p>
-              <p>
-                <strong>Discord Status:</strong>{' '}
-                {statusError ? (
-                  <span className="text-gray-400">{statusError}</span>
-                ) : discordStatus ? (
-                  <span className={discordStatus.discord_status === 'online' ? 'text-green-400' : 'text-gray-400'}>
-                    {discordStatus.discord_status === 'online' ? 'Online' : 'Offline'}
-                    {discordStatus.activities[0]?.name ? ` - Playing ${discordStatus.activities[0].name}` : ''}
-                  </span>
-                ) : (
-                  <span className="text-gray-400">Status unavailable</span>
-                )}
-              </p>
+              <p><strong>Discord Server:</strong> <a href="https://dsc.gg/tpsdll" className="text-lime-400 hover:text-lime-600 transition-colors">Join my Discord!</a></p>
               <div className="flex justify-center space-x-6 mt-4">
-                <a href="https://dsc.gg/tpsdll" className="text-3xl hover:text-gray-400 transition-colors" onMouseEnter={playHoverSound} onClick={playClickSound}><i className="fab fa-discord"></i></a>
-                <a href="mailto:tpsdll.business@gmail.com" className="text-3xl hover:text-gray-400 transition-colors" onMouseEnter={playHoverSound} onClick={playClickSound}><i className="fas fa-envelope"></i></a>
-                <a href="http://instagram.com/ykcam.exe" className="text-3xl hover:text-gray-400 transition-colors" onMouseEnter={playHoverSound} onClick={playClickSound}><i className="fab fa-instagram"></i></a>
-                <a href="http://tiktok.com/@ysl.cam" className="text-3xl hover:text-gray-400 transition-colors" onMouseEnter={playHoverSound} onClick={playClickSound}><i className="fab fa-tiktok"></i></a>
+                <a href="https://dsc.gg/tpsdll" className="text-3xl hover:text-lime-600 transition-colors" onMouseEnter={playHoverSound} onClick={playClickSound}><i className="fab fa-discord"></i></a>
+                <a href="mailto:tpsdll.business@gmail.com" className="text-3xl hover:text-lime-600 transition-colors" onMouseEnter={playHoverSound} onClick={playClickSound}><i className="fas fa-envelope"></i></a>
+                <a href="http://instagram.com/ykcam.exe" className="text-3xl hover:text-lime-600 transition-colors" onMouseEnter={playHoverSound} onClick={playClickSound}><i className="fab fa-instagram"></i></a>
+                <a href="http://tiktok.com/@ysl.cam" className="text-3xl hover:text-lime-600 transition-colors" onMouseEnter={playHoverSound} onClick={playClickSound}><i className="fab fa-tiktok"></i></a>
               </div>
             </div>
           </section>
         ),
       };
 
+      console.log('Rendering App component with activeSection:', activeSection);
       return (
         <div>
-          <nav className="fixed top-0 w-full bg-black/80 backdrop-blur-md shadow-lg shadow-white/20 z-20">
+          <div className="fixed top-4 right-4 z-30 flex items-center space-x-2 text-lime-400">
+            <i className="fas fa-eye"></i>
+            <span>{viewCount} Views</span>
+          </div>
+          <nav className="fixed top-0 w-full bg-black/80 backdrop-blur-md shadow-lg shadow-lime-600/20 z-20">
             <ul className="flex justify-center space-x-8 py-4">
               {Object.keys(sections).map((section) => (
                 <li key={section}>
                   <button
                     onClick={() => { setActiveSection(section); playClickSound(); }}
                     onMouseEnter={playHoverSound}
-                    className={`text-lg font-bold capitalize dragon-text hover:scale-110 transition-transform ${
-                      activeSection === section ? 'text-gray-200' : 'text-white'
+                    className={`text-lg font-bold capitalize lime-text hover:scale-110 transition-transform ${
+                      activeSection === section ? 'text-lime-400' : 'text-lime-200'
                     }`}
                   >
                     {section}
@@ -194,24 +144,30 @@
       );
     }
 
-    ReactDOM.render(<App />, document.getElementById('root'));
+    try {
+      console.log('Attempting to render ReactDOM');
+      ReactDOM.render(<App />, document.getElementById('root'));
+      console.log('ReactDOM rendered successfully');
+    } catch (error) {
+      console.error('ReactDOM render error:', error);
+    }
   </script>
   <style>
     .font-cinzel {
       font-family: 'Cinzel', serif;
     }
-    .dragon-border {
-      border: 2px solid #ffffff;
-      box-shadow: 0 0 15px rgba(255, 255, 255, 0.5), 0 0 30px rgba(255, 255, 255, 0.3);
-      background: url('https://img.icons8.com/ios-filled/50/ffffff/snake.png') no-repeat center/50px, 
-                  url('https://img.icons8.com/ios-filled/50/ffffff/dragon.png') no-repeat center/50px;
+    .lime-border {
+      border: 2px solid #00FF00;
+      box-shadow: 0 0 15px rgba(0, 255, 0, 0.5), 0 0 30px rgba(0, 255, 0, 0.3);
+      background: url('https://img.icons8.com/ios-filled/50/00FF00/snake.png') no-repeat center/50px, 
+                  url('https://img.icons8.com/ios-filled/50/00FF00/dragon.png') no-repeat center/50px;
       background-position: top left, bottom right;
     }
-    .dragon-text {
-      text-shadow: 0 0 5px rgba(255, 255, 255, 0.7), 0 0 10px rgba(255, 255, 255, 0.5);
+    .lime-text {
+      text-shadow: 0 0 5px rgba(0, 255, 0, 0.7), 0 0 10px rgba(0, 255, 0, 0.5);
     }
-    .animate-dragon-glow {
-      animation: dragonGlow 2s ease-in-out infinite alternate;
+    .animate-lime-glow {
+      animation: limeGlow 2s ease-in-out infinite alternate;
     }
     .animate-pulse {
       animation: pulse 1.5s ease-in-out infinite;
@@ -225,47 +181,68 @@
       content: '';
       position: absolute;
       background-size: contain;
-      opacity: 0.1;
+      opacity: 0.2;
       animation: drift 20s linear infinite;
     }
     #background::before {
-      background-image: url('https://img.icons8.com/ios-filled/100/ffffff/dragon.png');
-      width: 150px;
-      height: 150px;
-      top: 10%;
-      left: 10%;
+      background-image: url('https://img.icons8.com/ios-filled/100/00FF00/dragon.png');
+      width: 200px;
+      height: 200px;
+      top: 5%;
+      left: 5%;
+      box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
     }
     #background::after {
-      background-image: url('https://img.icons8.com/ios-filled/100/ffffff/snake.png');
-      width: 150px;
-      height: 150px;
-      bottom: 15%;
-      right: 15%;
+      background-image: url('https://img.icons8.com/ios-filled/100/00FF00/snake.png');
+      width: 200px;
+      height: 200px;
+      bottom: 10%;
+      right: 10%;
+      box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
       animation-direction: reverse;
     }
     #background > .glow-orb {
       position: absolute;
       width: 20px;
       height: 20px;
-      background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 70%);
+      background: radial-gradient(circle, rgba(0, 255, 0, 0.8) 0%, rgba(0, 255, 0, 0) 70%);
       border-radius: 50%;
       animation: fadeGlow 5s ease-in-out infinite;
     }
-    #background > .glow-orb:nth-child(1) { top: 20%; left: 30%; animation-delay: 0s; }
-    #background > .glow-orb:nth-child(2) { top: 50%; left: 70%; animation-delay: 1s; }
-    #background > .glow-orb:nth-child(3) { top: 80%; left: 20%; animation-delay: 2s; }
+    #background > .glow-orb:nth-child(1) { top: 15%; left: 25%; animation-delay: 0s; }
+    #background > .glow-orb:nth-child(2) { top: 40%; left: 65%; animation-delay: 1s; }
+    #background > .glow-orb:nth-child(3) { top: 75%; left: 15%; animation-delay: 2s; }
+    #background > .glow-orb:nth-child(4) { top: 25%; left: 80%; animation-delay: 0.5s; }
+    #background > .glow-orb:nth-child(5) { top: 60%; left: 35%; animation-delay: 1.5s; }
+    #background > .glow-orb:nth-child(6) { top: 85%; left: 50%; animation-delay: 2.5s; }
+    #background > .lime-particle {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: #32CD32;
+      border-radius: 50%;
+      animation: floatParticle 15s linear infinite;
+    }
+    #background > .lime-particle:nth-child(7) { top: 10%; left: 20%; animation-delay: 0s; }
+    #background > .lime-particle:nth-child(8) { top: 50%; left: 70%; animation-delay: 3s; }
+    #background > .lime-particle:nth-child(9) { top: 80%; left: 30%; animation-delay: 6s; }
     @keyframes drift {
       0% { transform: translate(0, 0); }
       50% { transform: translate(50px, 50px); }
       100% { transform: translate(0, 0); }
     }
     @keyframes fadeGlow {
-      0%, 100% { opacity: 0.2; transform: scale(1); }
-      50% { opacity: 0.8; transform: scale(1.5); }
+      0%, 100% { opacity: 0.3; transform: scale(1); }
+      50% { opacity: 0.9; transform: scale(1.5); }
     }
-    @keyframes dragonGlow {
-      from { box-shadow: 0 0 10px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.3); }
-      to { box-shadow: 0 0 20px rgba(255, 255, 255, 0.7), 0 0 40px rgba(255, 255, 255, 0.5); }
+    @keyframes floatParticle {
+      0% { transform: translateY(0); opacity: 0.5; }
+      50% { transform: translateY(-100vh); opacity: 0.2; }
+      100% { transform: translateY(0); opacity: 0.5; }
+    }
+    @keyframes limeGlow {
+      from { box-shadow: 0 0 10px rgba(0, 255, 0, 0.5), 0 0 20px rgba(0, 255, 0, 0.3); }
+      to { box-shadow: 0 0 20px rgba(0, 255, 0, 0.7), 0 0 40px rgba(0, 255, 0, 0.5); }
     }
     @keyframes pulse {
       0%, 100% { opacity: 1; }
@@ -273,12 +250,23 @@
     }
   </style>
   <script>
-    // Dynamically add glowing orbs to the background
-    const bg = document.getElementById('background');
-    for (let i = 0; i < 3; i++) {
-      const orb = document.createElement('div');
-      orb.className = 'glow-orb';
-      bg.appendChild(orb);
+    // Dynamically add glowing orbs and lime particles to the background
+    try {
+      console.log('Adding glowing orbs and particles to background');
+      const bg = document.getElementById('background');
+      for (let i = 0; i < 6; i++) {
+        const orb = document.createElement('div');
+        orb.className = 'glow-orb';
+        bg.appendChild(orb);
+      }
+      for (let i = 0; i < 3; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'lime-particle';
+        bg.appendChild(particle);
+      }
+      console.log('Glowing orbs and particles added successfully');
+    } catch (error) {
+      console.error('Error adding background elements:', error);
     }
   </script>
 </body>

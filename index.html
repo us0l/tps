@@ -8,7 +8,6 @@
   <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.20.15/babel.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -21,6 +20,7 @@
     function App() {
       const [activeSection, setActiveSection] = useState('about');
       const [discordStatus, setDiscordStatus] = useState(null);
+      const [statusError, setStatusError] = useState(null);
 
       // Sound effects
       const hoverSound = new Audio('https://cdn.pixabay.com/audio/2023/08/08/audio_9b8a7b6e5b.mp3'); // Dragon growl
@@ -28,23 +28,59 @@
 
       // Fetch Discord status via Lanyard API
       useEffect(() => {
-        const discordId = '1196398244662628394'; // Replace with your Discord ID
-        const ws = new WebSocket(`wss://api.lanyard.rest/socket`);
+        const discordId = '1196398244662628394';
+        let ws;
+        let reconnectAttempts = 0;
+        const maxReconnectAttempts = 5;
+        const reconnectDelay = 5000; // 5 seconds
 
-        ws.onmessage = (event) => {
-          const data = JSON.parse(event.data);
-          if (data.op === 0 && data.t === 'PRESENCE_UPDATE') {
-            setDiscordStatus(data.d);
-          }
+        const connectWebSocket = () => {
+          ws = new WebSocket('wss://api.lanyard.rest/socket');
+          console.log('Attempting to connect to Lanyard WebSocket...');
+
+          ws.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            console.log('Lanyard WebSocket message received:', data);
+            if (data.op === 0 && (data.t === 'PRESENCE_UPDATE' || data.t === 'INIT_STATE')) {
+              setDiscordStatus(data.d);
+              setStatusError(null);
+              reconnectAttempts = 0; // Reset on successful update
+            }
+          };
+
+          ws.onopen = () => {
+            console.log('Lanyard WebSocket connected');
+            ws.send(JSON.stringify({ op: 2, d: { subscribe_to_id: discordId } }));
+            setInterval(() => {
+              if (ws.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify({ op: 3 }));
+                console.log('Sent heartbeat');
+              }
+            }, 30000);
+          };
+
+          ws.onerror = (error) => {
+            console.error('Lanyard WebSocket error:', error);
+            setStatusError('Failed to connect to Discord status service');
+          };
+
+          ws.onclose = () => {
+            console.log('Lanyard WebSocket closed');
+            if (reconnectAttempts < maxReconnectAttempts) {
+              reconnectAttempts++;
+              console.log(`Reconnecting attempt ${reconnectAttempts}/${maxReconnectAttempts} in ${reconnectDelay}ms...`);
+              setTimeout(connectWebSocket, reconnectDelay);
+            } else {
+              setStatusError('Unable to connect to Discord status after multiple attempts');
+            }
+          };
         };
 
-        ws.onopen = () => {
-          ws.send(JSON.stringify({ op: 2, d: { subscribe_to_id: discordId } }));
-          setInterval(() => ws.send(JSON.stringify({ op: 3 })), 30000); // Heartbeat
-        };
+        connectWebSocket();
 
         return () => {
-          ws.close();
+          if (ws) ws.close();
+          console.log('Lanyard WebSocket cleanup');
         };
       }, []);
 
@@ -108,15 +144,19 @@
               <p><strong>Date of Birth:</strong> 10.02.2007</p>
               <p><strong>Discord Username:</strong> tps.dll</p>
               <p><strong>Discord Server:</strong> <a href="https://dsc.gg/tpsdll" className="text-gray-200 hover:text-gray-400 transition-colors">Join my Discord!</a></p>
-              {discordStatus && (
-                <p>
-                  <strong>Discord Status:</strong>{' '}
+              <p>
+                <strong>Discord Status:</strong>{' '}
+                {statusError ? (
+                  <span className="text-gray-400">{statusError}</span>
+                ) : discordStatus ? (
                   <span className={discordStatus.discord_status === 'online' ? 'text-green-400' : 'text-gray-400'}>
                     {discordStatus.discord_status === 'online' ? 'Online' : 'Offline'}
                     {discordStatus.activities[0]?.name ? ` - Playing ${discordStatus.activities[0].name}` : ''}
                   </span>
-                </p>
-              )}
+                ) : (
+                  <span className="text-gray-400">Status unavailable</span>
+                )}
+              </p>
               <div className="flex justify-center space-x-6 mt-4">
                 <a href="https://dsc.gg/tpsdll" className="text-3xl hover:text-gray-400 transition-colors" onMouseEnter={playHoverSound} onClick={playClickSound}><i className="fab fa-discord"></i></a>
                 <a href="mailto:tpsdll.business@gmail.com" className="text-3xl hover:text-gray-400 transition-colors" onMouseEnter={playHoverSound} onClick={playClickSound}><i className="fas fa-envelope"></i></a>

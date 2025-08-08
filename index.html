@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Neon Personal Website</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.20.15/babel.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-gray-950 text-white font-orbitron">
+  <div id="particles-js" class="fixed inset-0 z-0"></div>
+  <div id="root" class="relative z-10"></div>
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    function App() {
+      const [activeSection, setActiveSection] = useState('about');
+
+      useEffect(() => {
+        tsParticles.load("particles-js", {
+          particles: {
+            number: { value: 80, density: { enable: true, value_area: 800 } },
+            color: { value: ["#8B5CF6", "#22D3EE"] },
+            shape: { type: "circle" },
+            opacity: { value: 0.5, random: true },
+            size: { value: 3, random: true },
+            move: { enable: true, speed: 2, direction: "none", random: true, out_mode: "out" },
+            line_linked: { enable: true, distance: 150, color: "#22D3EE", opacity: 0.4, width: 1 }
+          },
+          interactivity: {
+            events: { onhover: { enable: true, mode: "repulse" }, onclick: { enable: true, mode: "push" } },
+            modes: { repulse: { distance: 100 }, push: { particles_nb: 4 } }
+          }
+        });
+      }, []);
+
+      const sections = {
+        about: (
+          <section className="min-h-screen flex flex-col justify-center items-center text-center px-4 animate-glow">
+            <h2 className="text-5xl font-bold mb-6 bg-gradient-to-r from-purple-500 to-cyan-400 bg-clip-text text-transparent animate-pulse">
+              About Me
+            </h2>
+            <p className="text-xl max-w-3xl neon-border p-6 rounded-lg bg-gray-900/50">
+              Yo, I'm [Your Name]! I'm all about epic adventures in gaming, art, and more. 
+              This site is my neon-lit corner of the internet—dive in to see what makes me tick!
+            </p>
+          </section>
+        ),
+        hobbies: (
+          <section className="min-h-screen flex flex-col justify-center items-center text-center px-4 animate-glow">
+            <h2 className="text-5xl font-bold mb-6 bg-gradient-to-r from-purple-500 to-cyan-400 bg-clip-text text-transparent animate-pulse">
+              My Hobbies
+            </h2>
+            <ul className="text-xl max-w-3xl space-y-4 neon-border p-6 rounded-lg bg-gray-900/50">
+              <li className="hover:scale-105 transition-transform">🎮 Gaming: Obsessed with [Your Favorite Game].</li>
+              <li className="hover:scale-105 transition-transform">📚 Reading: Devouring [Your Favorite Book/Genre].</li>
+              <li className="hover:scale-105 transition-transform">🎨 Art: Creating [e.g., digital art, pixel art].</li>
+              <li className="hover:scale-105 transition-transform">🏞️ Outdoors: [e.g., Skateboarding, exploring].</li>
+            </ul>
+          </section>
+        ),
+        likes: (
+          <section className="min-h-screen flex flex-col justify-center items-center text-center px-4 animate-glow">
+            <h2 className="text-5xl font-bold mb-6 bg-gradient-to-r from-purple-500 to-cyan-400 bg-clip-text text-transparent animate-pulse">
+              Likes & Dislikes
+            </h2>
+            <div className="text-xl max-w-3xl space-y-6 neon-border p-6 rounded-lg bg-gray-900/50">
+              <div>
+                <h3 className="text-2xl font-semibold text-cyan-400">Likes</h3>
+                <p>[e.g., Neon aesthetics, retro synth music, anime].</p>
+              </div>
+              <div>
+                <h3 className="text-2xl font-semibold text-purple-500">Dislikes</h3>
+                <p>[e.g., Boring designs, slow internet, early mornings].</p>
+              </div>
+            </div>
+          </section>
+        ),
+        info: (
+          <section className="min-h-screen flex flex-col justify-center items-center text-center px-4 animate-glow">
+            <h2 className="text-5xl font-bold mb-6 bg-gradient-to-r from-purple-500 to-cyan-400 bg-clip-text text-transparent animate-pulse">
+              Additional Info
+            </h2>
+            <div className="text-xl max-w-3xl space-y-4 neon-border p-6 rounded-lg bg-gray-900/50">
+              <p><strong>Date of Birth:</strong> [Your DOB, e.g., January 1, 2000]</p>
+              <p><strong>Discord Username:</strong> [Your Discord Username]</p>
+              <p><strong>Discord Server:</strong> <a href="[Your Discord Server Invite Link]" className="text-cyan-400 hover:text-purple-500 transition-colors">Join my server!</a></p>
+              <p><strong>Contact:</strong> [e.g., Email or social media handle]</p>
+            </div>
+          </section>
+        ),
+      };
+
+      return (
+        <div>
+          <nav className="fixed top-0 w-full bg-gray-900/80 backdrop-blur-md shadow-lg shadow-purple-500/50 z-20">
+            <ul className="flex justify-center space-x-8 py-4">
+              {Object.keys(sections).map((section) => (
+                <li key={section}>
+                  <button
+                    onClick={() => setActiveSection(section)}
+                    className={`text-lg font-bold capitalize neon-text hover:scale-110 transition-transform ${
+                      activeSection === section ? 'text-cyan-400' : 'text-white'
+                    }`}
+                  >
+                    {section}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </nav>
+          <div className="pt-20">{sections[activeSection]}</div>
+        </div>
+      );
+    }
+
+    ReactDOM.render(<App />, document.getElementById('root'));
+  </script>
+  <style>
+    .font-orbitron {
+      font-family: 'Orbitron', sans-serif;
+    }
+    .neon-border {
+      border: 2px solid #8B5CF6;
+      box-shadow: 0 0 10px #8B5CF6, 0 0 20px #22D3EE;
+    }
+    .neon-text {
+      text-shadow: 0 0 5px #8B5CF6, 0 0 10px #22D3EE;
+    }
+    .animate-glow {
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+    .animate-pulse {
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+    @keyframes glow {
+      from { box-shadow: 0 0 10px #8B5CF6, 0 0 20px #22D3EE; }
+      to { box-shadow: 0 0 20px #8B5CF6, 0 0 30px #22D3EE; }
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.8; }
+    }
+  </style>
+</body>
+</html>

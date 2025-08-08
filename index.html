@@ -8,49 +8,27 @@
   <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.20.15/babel.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="bg-black text-white font-cinzel">
-  <div id="loading-screen" class="fixed inset-0 bg-black flex flex-col justify-center items-center z-50">
-    <pre className="text-white text-center text-sm sm:text-base animate-pulse">
-      ```
-   ____ ___  ____   ____._____
-  / __// _ \/_  /  /    \\    \
- / _//  ___/ / /_ / / / /    /
-/_/  \____\/____\/_/ /_/____/
-      ```
-    </pre>
-    <p className="text-2xl mt-4 animate-pulse">Entering the Dragon's Lair...</p>
-  </div>
-  <div id="particles-js" class="fixed inset-0 z-0"></div>
+  <div id="background" class="fixed inset-0 z-0"></div>
   <div id="root" class="relative z-10"></div>
   <script type="text/babel">
     const { useState, useEffect } = React;
 
     function App() {
       const [activeSection, setActiveSection] = useState('about');
-      const [isLoading, setIsLoading] = useState(true);
-      const [galleryModal, setGalleryModal] = useState({ open: false, index: 0 });
       const [discordStatus, setDiscordStatus] = useState(null);
 
       // Sound effects
       const hoverSound = new Audio('https://cdn.pixabay.com/audio/2023/08/08/audio_9b8a7b6e5b.mp3'); // Dragon growl
       const clickSound = new Audio('https://cdn.pixabay.com/audio/2023/08/08/audio_7e1b7f6e5b.mp3'); // Magical chime
 
-      // Gallery images (placeholders; replace with your own URLs)
-      const galleryImages = [
-        'https://img.icons8.com/ios-filled/100/ffffff/dragon.png',
-        'https://img.icons8.com/ios-filled/100/ffffff/snake.png',
-        'https://via.placeholder.com/300x200.png?text=Dragon+Art+1',
-        'https://via.placeholder.com/300x200.png?text=Snake+Art+1',
-      ];
-
       // Fetch Discord status via Lanyard API
       useEffect(() => {
-        const discordId = '[Your Discord ID]'; // Replace with your Discord ID
+        const discordId = '1196398244662628394'; // Replace with your Discord ID
         const ws = new WebSocket(`wss://api.lanyard.rest/socket`);
 
         ws.onmessage = (event) => {
@@ -65,31 +43,7 @@
           setInterval(() => ws.send(JSON.stringify({ op: 3 })), 30000); // Heartbeat
         };
 
-        // Initialize particles
-        tsParticles.load("particles-js", {
-          particles: {
-            number: { value: 50, density: { enable: true, value_area: 1000 } },
-            color: { value: "#ffffff" },
-            shape: { type: "image", image: { src: "https://img.icons8.com/ios-filled/50/ffffff/dragon.png", width: 50, height: 50 } },
-            opacity: { value: 0.5, random: true },
-            size: { value: 20, random: true },
-            move: { enable: true, speed: 1.5, direction: "none", random: true, out_mode: "out" },
-            line_linked: { enable: true, distance: 200, color: "#ffffff", opacity: 0.3, width: 1 }
-          },
-          interactivity: {
-            events: { onhover: { enable: true, mode: "repulse" }, onclick: { enable: true, mode: "push" } },
-            modes: { repulse: { distance: 150 }, push: { particles_nb: 3 } }
-          }
-        });
-
-        // Hide loading screen after 2 seconds
-        const timer = setTimeout(() => {
-          document.getElementById('loading-screen').style.display = 'none';
-          setIsLoading(false);
-        }, 2000);
-
         return () => {
-          clearTimeout(timer);
           ws.close();
         };
       }, []);
@@ -111,7 +65,7 @@
               About Me
             </h2>
             <p className="text-xl max-w-3xl dragon-border p-6 rounded-lg bg-black/70">
-              I’m [Your Name], a wanderer of mythical realms! My world is filled with dragons, snakes, and epic adventures. Explore my passions and join my journey!
+              Hi there, im Cam also known as tps.dll on most platforms and im an 18 year old Website and Discord Bot Developer based out of the UK with a deep passion for coding and gaming!
             </p>
           </section>
         ),
@@ -121,10 +75,10 @@
               My Hobbies
             </h2>
             <ul className="text-xl max-w-3xl space-y-4 dragon-border p-6 rounded-lg bg-black/70">
-              <li className="hover:scale-105 transition-transform">🐉 Gaming: Slaying in [Your Favorite Game].</li>
-              <li className="hover:scale-105 transition-transform">📜 Mythology: Obsessed with dragon and snake lore.</li>
-              <li className="hover:scale-105 transition-transform">🎨 Art: Crafting [e.g., dragon sketches, digital art].</li>
-              <li className="hover:scale-105 transition-transform">🌌 Exploring: [e.g., Urban exploration, stargazing].</li>
+              <li className="hover:scale-105 transition-transform">🐉 Gaming: I play games such as Minecraft, Fortnite and COD</li>
+              <li className="hover:scale-105 transition-transform">📜 Sleep: I enjoy sleeping a lot!</li>
+              <li className="hover:scale-105 transition-transform">🎨 Exploring: I sometimes enjoy going out and just walking around for no reason whatsoever</li>
+              <li className="hover:scale-105 transition-transform">🌌 Other: Welp thats about it, im a pretty boring and normal guy!</li>
             </ul>
           </section>
         ),
@@ -145,34 +99,15 @@
             </div>
           </section>
         ),
-        gallery: (
-          <section className="min-h-screen flex flex-col justify-center items-center text-center px-4 animate-dragon-glow">
-            <h2 className="text-5xl font-bold mb-6 bg-gradient-to-r from-gray-200 to-gray-400 bg-clip-text text-transparent animate-pulse">
-              Gallery
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-4xl dragon-border p-6 rounded-lg bg-black/70">
-              {galleryImages.map((image, index) => (
-                <img
-                  key={index}
-                  src={image}
-                  alt={`Gallery Image ${index + 1}`}
-                  className="w-full h-48 object-cover rounded-lg hover:scale-105 transition-transform cursor-pointer"
-                  onClick={() => { setGalleryModal({ open: true, index }); playClickSound(); }}
-                  onMouseEnter={playHoverSound}
-                />
-              ))}
-            </div>
-          </section>
-        ),
         info: (
           <section className="min-h-screen flex flex-col justify-center items-center text-center px-4 animate-dragon-glow">
             <h2 className="text-5xl font-bold mb-6 bg-gradient-to-r from-gray-200 to-gray-400 bg-clip-text text-transparent animate-pulse">
               Additional Info
             </h2>
             <div className="text-xl max-w-3xl space-y-4 dragon-border p-6 rounded-lg bg-black/70">
-              <p><strong>Date of Birth:</strong> [Your DOB, e.g., January 1, 2000]</p>
-              <p><strong>Discord Username:</strong> [Your Discord Username]</p>
-              <p><strong>Discord Server:</strong> <a href="[Your Discord Server Invite Link]" className="text-gray-200 hover:text-gray-400 transition-colors">Join my lair!</a></p>
+              <p><strong>Date of Birth:</strong> 10.02.2007</p>
+              <p><strong>Discord Username:</strong> tps.dll</p>
+              <p><strong>Discord Server:</strong> <a href="https://dsc.gg/tpsdll" className="text-gray-200 hover:text-gray-400 transition-colors">Join my Discord!</a></p>
               {discordStatus && (
                 <p>
                   <strong>Discord Status:</strong>{' '}
@@ -183,10 +118,10 @@
                 </p>
               )}
               <div className="flex justify-center space-x-6 mt-4">
-                <a href="[Your Discord Server Invite Link]" className="text-3xl hover:text-gray-400 transition-colors" onMouseEnter={playHoverSound} onClick={playClickSound}><i className="fab fa-discord"></i></a>
-                <a href="mailto:[Your Gmail Address]" className="text-3xl hover:text-gray-400 transition-colors" onMouseEnter={playHoverSound} onClick={playClickSound}><i className="fas fa-envelope"></i></a>
-                <a href="[Your Instagram Profile URL]" className="text-3xl hover:text-gray-400 transition-colors" onMouseEnter={playHoverSound} onClick={playClickSound}><i className="fab fa-instagram"></i></a>
-                <a href="[Your TikTok Profile URL]" className="text-3xl hover:text-gray-400 transition-colors" onMouseEnter={playHoverSound} onClick={playClickSound}><i className="fab fa-tiktok"></i></a>
+                <a href="https://dsc.gg/tpsdll" className="text-3xl hover:text-gray-400 transition-colors" onMouseEnter={playHoverSound} onClick={playClickSound}><i className="fab fa-discord"></i></a>
+                <a href="mailto:tpsdll.business@gmail.com" className="text-3xl hover:text-gray-400 transition-colors" onMouseEnter={playHoverSound} onClick={playClickSound}><i className="fas fa-envelope"></i></a>
+                <a href="http://tiktok.com/@ysl.cam" className="text-3xl hover:text-gray-400 transition-colors" onMouseEnter={playHoverSound} onClick={playClickSound}><i className="fab fa-instagram"></i></a>
+                <a href="http://tiktok.com/@ysl.cam" className="text-3xl hover:text-gray-400 transition-colors" onMouseEnter={playHoverSound} onClick={playClickSound}><i className="fab fa-tiktok"></i></a>
               </div>
             </div>
           </section>
@@ -214,46 +149,6 @@
           </nav>
           <div className="pt-20">
             {sections[activeSection]}
-            {galleryModal.open && (
-              <div className="fixed inset-0 bg-black/90 flex justify-center items-center z-30">
-                <div className="relative dragon-border p-4 rounded-lg">
-                  <img src={galleryImages[galleryModal.index]} alt={`Gallery Image ${galleryModal.index + 1}`} className="max-w-full max-h-[80vh] rounded-lg" />
-                  <button
-                    onClick={() => { setGalleryModal({ open: false, index: 0 }); playClickSound(); }}
-                    onMouseEnter={playHoverSound}
-                    className="absolute top-2 right-2 text-2xl text-white hover:text-gray-400"
-                  >
-                    <i className="fas fa-times"></i>
-                  </button>
-                  <button
-                    onClick={() => {
-                      setGalleryModal({
-                        open: true,
-                        index: (galleryModal.index - 1 + galleryImages.length) % galleryImages.length
-                      });
-                      playClickSound();
-                    }}
-                    onMouseEnter={playHoverSound}
-                    className="absolute left-2 top-1/2 transform -translate-y-1/2 text-2xl text-white hover:text-gray-400"
-                  >
-                    <i className="fas fa-chevron-left"></i>
-                  </button>
-                  <button
-                    onClick={() => {
-                      setGalleryModal({
-                        open: true,
-                        index: (galleryModal.index + 1) % galleryImages.length
-                      });
-                      playClickSound();
-                    }}
-                    onMouseEnter={playHoverSound}
-                    className="absolute right-2 top-1/2 transform -translate-y-1/2 text-2xl text-white hover:text-gray-400"
-                  >
-                    <i className="fas fa-chevron-right"></i>
-                  </button>
-                </div>
-              </div>
-            )}
           </div>
         </div>
       );
@@ -281,8 +176,52 @@
     .animate-pulse {
       animation: pulse 1.5s ease-in-out infinite;
     }
-    .animate-spin-slow {
-      animation: spin 4s linear infinite;
+    #background {
+      background: radial-gradient(circle at center, #1a1a1a 0%, #000000 100%);
+      overflow: hidden;
+    }
+    #background::before,
+    #background::after {
+      content: '';
+      position: absolute;
+      background-size: contain;
+      opacity: 0.1;
+      animation: drift 20s linear infinite;
+    }
+    #background::before {
+      background-image: url('https://img.icons8.com/ios-filled/100/ffffff/dragon.png');
+      width: 150px;
+      height: 150px;
+      top: 10%;
+      left: 10%;
+    }
+    #background::after {
+      background-image: url('https://img.icons8.com/ios-filled/100/ffffff/snake.png');
+      width: 150px;
+      height: 150px;
+      bottom: 15%;
+      right: 15%;
+      animation-direction: reverse;
+    }
+    #background > .glow-orb {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 70%);
+      border-radius: 50%;
+      animation: fadeGlow 5s ease-in-out infinite;
+    }
+    #background > .glow-orb:nth-child(1) { top: 20%; left: 30%; animation-delay: 0s; }
+    #background > .glow-orb:nth-child(2) { top: 50%; left: 70%; animation-delay: 1s; }
+    #background > .glow-orb:nth-child(3) { top: 80%; left: 20%; animation-delay: 2s; }
+    @keyframes drift {
+      0% { transform: translate(0, 0); }
+      50% { transform: translate(50px, 50px); }
+      100% { transform: translate(0, 0); }
+    }
+    @keyframes fadeGlow {
+      0%, 100% { opacity: 0.2; transform: scale(1); }
+      50% { opacity: 0.8; transform: scale(1.5); }
     }
     @keyframes dragonGlow {
       from { box-shadow: 0 0 10px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.3); }
@@ -292,10 +231,15 @@
       0%, 100% { opacity: 1; }
       50% { opacity: 0.8; }
     }
-    @keyframes spin {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
   </style>
+  <script>
+    // Dynamically add glowing orbs to the background
+    const bg = document.getElementById('background');
+    for (let i = 0; i < 3; i++) {
+      const orb = document.createElement('div');
+      orb.className = 'glow-orb';
+      bg.appendChild(orb);
+    }
+  </script>
 </body>
 </html>

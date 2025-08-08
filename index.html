@@ -3,15 +3,34 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Neon Personal Website</title>
+  <title>My Dragon-Themed Personal Website</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.20.15/babel.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="bg-gray-950 text-white font-orbitron">
+<body class="bg-black text-white font-cinzel">
+  <div id="loading-screen" class="fixed inset-0 bg-black flex flex-col justify-center items-center z-50">
+    <pre className="text-white text-center text-sm sm:text-base animate-pulse">
+      ```
+            ______
+           /|_||_\`.__
+      (   _    _ _\
+      =|  _    _  | 
+       |  _   _   |
+       |  _  _    |
+       |_________|
+        |  ***  | 
+        |  ***  | 
+         |_______|
+      ```
+    </pre>
+    <p className="text-2xl mt-4 animate-pulse">Entering the Dragon's Lair...</p>
+  </div>
   <div id="particles-js" class="fixed inset-0 z-0"></div>
   <div id="root" class="relative z-10"></div>
   <script type="text/babel">
@@ -19,75 +38,162 @@
 
     function App() {
       const [activeSection, setActiveSection] = useState('about');
+      const [isLoading, setIsLoading] = useState(true);
+      const [galleryModal, setGalleryModal] = useState({ open: false, index: 0 });
+      const [discordStatus, setDiscordStatus] = useState(null);
 
+      // Sound effects
+      const hoverSound = new Audio('https://cdn.pixabay.com/audio/2023/08/08/audio_9b8a7b6e5b.mp3'); // Dragon growl
+      const clickSound = new Audio('https://cdn.pixabay.com/audio/2023/08/08/audio_7e1b7f6e5b.mp3'); // Magical chime
+
+      // Gallery images (placeholders; replace with your own URLs)
+      const galleryImages = [
+        'https://img.icons8.com/ios-filled/100/ffffff/dragon.png',
+        'https://img.icons8.com/ios-filled/100/ffffff/snake.png',
+        'https://via.placeholder.com/300x200.png?text=Dragon+Art+1',
+        'https://via.placeholder.com/300x200.png?text=Snake+Art+1',
+      ];
+
+      // Fetch Discord status via Lanyard API
       useEffect(() => {
+        const discordId = '[Your Discord ID]'; // Replace with your Discord ID
+        const ws = new WebSocket(`wss://api.lanyard.rest/socket`);
+
+        ws.onmessage = (event) => {
+          const data = JSON.parse(event.data);
+          if (data.op === 0 && data.t === 'PRESENCE_UPDATE') {
+            setDiscordStatus(data.d);
+          }
+        };
+
+        ws.onopen = () => {
+          ws.send(JSON.stringify({ op: 2, d: { subscribe_to_id: discordId } }));
+          setInterval(() => ws.send(JSON.stringify({ op: 3 })), 30000); // Heartbeat
+        };
+
+        // Initialize particles
         tsParticles.load("particles-js", {
           particles: {
-            number: { value: 80, density: { enable: true, value_area: 800 } },
-            color: { value: ["#8B5CF6", "#22D3EE"] },
-            shape: { type: "circle" },
+            number: { value: 50, density: { enable: true, value_area: 1000 } },
+            color: { value: "#ffffff" },
+            shape: { type: "image", image: { src: "https://img.icons8.com/ios-filled/50/ffffff/dragon.png", width: 50, height: 50 } },
             opacity: { value: 0.5, random: true },
-            size: { value: 3, random: true },
-            move: { enable: true, speed: 2, direction: "none", random: true, out_mode: "out" },
-            line_linked: { enable: true, distance: 150, color: "#22D3EE", opacity: 0.4, width: 1 }
+            size: { value: 20, random: true },
+            move: { enable: true, speed: 1.5, direction: "none", random: true, out_mode: "out" },
+            line_linked: { enable: true, distance: 200, color: "#ffffff", opacity: 0.3, width: 1 }
           },
           interactivity: {
             events: { onhover: { enable: true, mode: "repulse" }, onclick: { enable: true, mode: "push" } },
-            modes: { repulse: { distance: 100 }, push: { particles_nb: 4 } }
+            modes: { repulse: { distance: 150 }, push: { particles_nb: 3 } }
           }
         });
+
+        // Hide loading screen after 2 seconds
+        const timer = setTimeout(() => {
+          document.getElementById('loading-screen').style.display = 'none';
+          setIsLoading(false);
+        }, 2000);
+
+        return () => {
+          clearTimeout(timer);
+          ws.close();
+        };
       }, []);
+
+      const playHoverSound = () => {
+        hoverSound.currentTime = 0;
+        hoverSound.play().catch(() => {});
+      };
+
+      const playClickSound = () => {
+        clickSound.currentTime = 0;
+        clickSound.play().catch(() => {});
+      };
 
       const sections = {
         about: (
-          <section className="min-h-screen flex flex-col justify-center items-center text-center px-4 animate-glow">
-            <h2 className="text-5xl font-bold mb-6 bg-gradient-to-r from-purple-500 to-cyan-400 bg-clip-text text-transparent animate-pulse">
+          <section className="min-h-screen flex flex-col justify-center items-center text-center px-4 animate-dragon-glow">
+            <h2 className="text-5xl font-bold mb-6 bg-gradient-to-r from-gray-200 to-gray-400 bg-clip-text text-transparent animate-pulse">
               About Me
             </h2>
-            <p className="text-xl max-w-3xl neon-border p-6 rounded-lg bg-gray-900/50">
-              Hi there, my name is Cam also known as tps on most platforms! I am a 18 year old website developer from the UK (tea and crumpets land) with a lot of skills
-              and hobbies that help motivate my day to day life. Please enjoy the site and let me know if you have any suggestions/feedback <3
+            <p className="text-xl max-w-3xl dragon-border p-6 rounded-lg bg-black/70">
+              I’m [Your Name], a wanderer of mythical realms! My world is filled with dragons, snakes, and epic adventures. Explore my passions and join my journey!
             </p>
           </section>
         ),
         hobbies: (
-          <section className="min-h-screen flex flex-col justify-center items-center text-center px-4 animate-glow">
-            <h2 className="text-5xl font-bold mb-6 bg-gradient-to-r from-purple-500 to-cyan-400 bg-clip-text text-transparent animate-pulse">
+          <section className="min-h-screen flex flex-col justify-center items-center text-center px-4 animate-dragon-glow">
+            <h2 className="text-5xl font-bold mb-6 bg-gradient-to-r from-gray-200 to-gray-400 bg-clip-text text-transparent animate-pulse">
               My Hobbies
             </h2>
-            <ul className="text-xl max-w-3xl space-y-4 neon-border p-6 rounded-lg bg-gray-900/50">
-              <li className="hover:scale-105 transition-transform">🎮 Gaming: Fortnite, COD, Minecraft, and Forza</li>
-              <li className="hover:scale-105 transition-transform">📚 Movies: Fast and Furious, Star Wars, and the Avengers</li>
+            <ul className="text-xl max-w-3xl space-y-4 dragon-border p-6 rounded-lg bg-black/70">
+              <li className="hover:scale-105 transition-transform">🐉 Gaming: Slaying in [Your Favorite Game].</li>
+              <li className="hover:scale-105 transition-transform">📜 Mythology: Obsessed with dragon and snake lore.</li>
+              <li className="hover:scale-105 transition-transform">🎨 Art: Crafting [e.g., dragon sketches, digital art].</li>
+              <li className="hover:scale-105 transition-transform">🌌 Exploring: [e.g., Urban exploration, stargazing].</li>
             </ul>
           </section>
         ),
         likes: (
-          <section className="min-h-screen flex flex-col justify-center items-center text-center px-4 animate-glow">
-            <h2 className="text-5xl font-bold mb-6 bg-gradient-to-r from-purple-500 to-cyan-400 bg-clip-text text-transparent animate-pulse">
+          <section className="min-h-screen flex flex-col justify-center items-center text-center px-4 animate-dragon-glow">
+            <h2 className="text-5xl font-bold mb-6 bg-gradient-to-r from-gray-200 to-gray-400 bg-clip-text text-transparent animate-pulse">
               Likes & Dislikes
             </h2>
-            <div className="text-xl max-w-3xl space-y-6 neon-border p-6 rounded-lg bg-gray-900/50">
+            <div className="text-xl max-w-3xl space-y-6 dragon-border p-6 rounded-lg bg-black/70">
               <div>
-                <h3 className="text-2xl font-semibold text-cyan-400">Likes</h3>
-                <p>[Eating, Sleeping, Watching Shows/Movies and Gaming!].</p>
+                <h3 className="text-2xl font-semibold text-gray-200">Likes</h3>
+                <p>[e.g., Fantasy novels, epic battles, dark aesthetics].</p>
               </div>
               <div>
-                <h3 className="text-2xl font-semibold text-purple-500">Dislikes</h3>
-                <p>[Humans and Early Mornings!].</p>
+                <h3 className="text-2xl font-semibold text-gray-400">Dislikes</h3>
+                <p>[e.g., Mundane routines, bright lights, bland designs].</p>
               </div>
             </div>
           </section>
         ),
+        gallery: (
+          <section className="min-h-screen flex flex-col justify-center items-center text-center px-4 animate-dragon-glow">
+            <h2 className="text-5xl font-bold mb-6 bg-gradient-to-r from-gray-200 to-gray-400 bg-clip-text text-transparent animate-pulse">
+              Gallery
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-4xl dragon-border p-6 rounded-lg bg-black/70">
+              {galleryImages.map((image, index) => (
+                <img
+                  key={index}
+                  src={image}
+                  alt={`Gallery Image ${index + 1}`}
+                  className="w-full h-48 object-cover rounded-lg hover:scale-105 transition-transform cursor-pointer"
+                  onClick={() => { setGalleryModal({ open: true, index }); playClickSound(); }}
+                  onMouseEnter={playHoverSound}
+                />
+              ))}
+            </div>
+          </section>
+        ),
         info: (
-          <section className="min-h-screen flex flex-col justify-center items-center text-center px-4 animate-glow">
-            <h2 className="text-5xl font-bold mb-6 bg-gradient-to-r from-purple-500 to-cyan-400 bg-clip-text text-transparent animate-pulse">
+          <section className="min-h-screen flex flex-col justify-center items-center text-center px-4 animate-dragon-glow">
+            <h2 className="text-5xl font-bold mb-6 bg-gradient-to-r from-gray-200 to-gray-400 bg-clip-text text-transparent animate-pulse">
               Additional Info
             </h2>
-            <div className="text-xl max-w-3xl space-y-4 neon-border p-6 rounded-lg bg-gray-900/50">
-              <p><strong>Date of Birth:</strong> [10.02.2007]</p>
-              <p><strong>Discord Username:</strong> [tps.dll]</p>
-              <p><strong>Discord Server:</strong> <a href="[https://discord.gg/tpsdll]" className="text-cyan-400 hover:text-purple-500 transition-colors">Join my server!</a></p>
-              <p><strong>Email:</strong> [e.g., tpsdll.business@gmail.com]</p>
+            <div className="text-xl max-w-3xl space-y-4 dragon-border p-6 rounded-lg bg-black/70">
+              <p><strong>Date of Birth:</strong> [Your DOB, e.g., January 1, 2000]</p>
+              <p><strong>Discord Username:</strong> [Your Discord Username]</p>
+              <p><strong>Discord Server:</strong> <a href="[Your Discord Server Invite Link]" className="text-gray-200 hover:text-gray-400 transition-colors">Join my lair!</a></p>
+              {discordStatus && (
+                <p>
+                  <strong>Discord Status:</strong>{' '}
+                  <span className={discordStatus.discord_status === 'online' ? 'text-green-400' : 'text-gray-400'}>
+                    {discordStatus.discord_status === 'online' ? 'Online' : 'Offline'}
+                    {discordStatus.activities[0]?.name ? ` - Playing ${discordStatus.activities[0].name}` : ''}
+                  </span>
+                </p>
+              )}
+              <div className="flex justify-center space-x-6 mt-4">
+                <a href="[Your Discord Server Invite Link]" className="text-3xl hover:text-gray-400 transition-colors" onMouseEnter={playHoverSound} onClick={playClickSound}><i className="fab fa-discord"></i></a>
+                <a href="mailto:[Your Gmail Address]" className="text-3xl hover:text-gray-400 transition-colors" onMouseEnter={playHoverSound} onClick={playClickSound}><i className="fas fa-envelope"></i></a>
+                <a href="[Your Instagram Profile URL]" className="text-3xl hover:text-gray-400 transition-colors" onMouseEnter={playHoverSound} onClick={playClickSound}><i className="fab fa-instagram"></i></a>
+                <a href="[Your TikTok Profile URL]" className="text-3xl hover:text-gray-400 transition-colors" onMouseEnter={playHoverSound} onClick={playClickSound}><i className="fab fa-tiktok"></i></a>
+              </div>
             </div>
           </section>
         ),
@@ -95,14 +201,15 @@
 
       return (
         <div>
-          <nav className="fixed top-0 w-full bg-gray-900/80 backdrop-blur-md shadow-lg shadow-purple-500/50 z-20">
+          <nav className="fixed top-0 w-full bg-black/80 backdrop-blur-md shadow-lg shadow-white/20 z-20">
             <ul className="flex justify-center space-x-8 py-4">
               {Object.keys(sections).map((section) => (
                 <li key={section}>
                   <button
-                    onClick={() => setActiveSection(section)}
-                    className={`text-lg font-bold capitalize neon-text hover:scale-110 transition-transform ${
-                      activeSection === section ? 'text-cyan-400' : 'text-white'
+                    onClick={() => { setActiveSection(section); playClickSound(); }}
+                    onMouseEnter={playHoverSound}
+                    className={`text-lg font-bold capitalize dragon-text hover:scale-110 transition-transform ${
+                      activeSection === section ? 'text-gray-200' : 'text-white'
                     }`}
                   >
                     {section}
@@ -111,7 +218,49 @@
               ))}
             </ul>
           </nav>
-          <div className="pt-20">{sections[activeSection]}</div>
+          <div className="pt-20">
+            {sections[activeSection]}
+            {galleryModal.open && (
+              <div className="fixed inset-0 bg-black/90 flex justify-center items-center z-30">
+                <div className="relative dragon-border p-4 rounded-lg">
+                  <img src={galleryImages[galleryModal.index]} alt={`Gallery Image ${galleryModal.index + 1}`} className="max-w-full max-h-[80vh] rounded-lg" />
+                  <button
+                    onClick={() => { setGalleryModal({ open: false, index: 0 }); playClickSound(); }}
+                    onMouseEnter={playHoverSound}
+                    className="absolute top-2 right-2 text-2xl text-white hover:text-gray-400"
+                  >
+                    <i className="fas fa-times"></i>
+                  </button>
+                  <button
+                    onClick={() => {
+                      setGalleryModal({
+                        open: true,
+                        index: (galleryModal.index - 1 + galleryImages.length) % galleryImages.length
+                      });
+                      playClickSound();
+                    }}
+                    onMouseEnter={playHoverSound}
+                    className="absolute left-2 top-1/2 transform -translate-y-1/2 text-2xl text-white hover:text-gray-400"
+                  >
+                    <i className="fas fa-chevron-left"></i>
+                  </button>
+                  <button
+                    onClick={() => {
+                      setGalleryModal({
+                        open: true,
+                        index: (galleryModal.index + 1) % galleryImages.length
+                      });
+                      playClickSound();
+                    }}
+                    onMouseEnter={playHoverSound}
+                    className="absolute right-2 top-1/2 transform -translate-y-1/2 text-2xl text-white hover:text-gray-400"
+                  >
+                    <i className="fas fa-chevron-right"></i>
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       );
     }
@@ -119,29 +268,39 @@
     ReactDOM.render(<App />, document.getElementById('root'));
   </script>
   <style>
-    .font-orbitron {
-      font-family: 'Orbitron', sans-serif;
+    .font-cinzel {
+      font-family: 'Cinzel', serif;
     }
-    .neon-border {
-      border: 2px solid #8B5CF6;
-      box-shadow: 0 0 10px #8B5CF6, 0 0 20px #22D3EE;
+    .dragon-border {
+      border: 2px solid #ffffff;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.5), 0 0 30px rgba(255, 255, 255, 0.3);
+      background: url('https://img.icons8.com/ios-filled/50/ffffff/snake.png') no-repeat center/50px, 
+                  url('https://img.icons8.com/ios-filled/50/ffffff/dragon.png') no-repeat center/50px;
+      background-position: top left, bottom right;
     }
-    .neon-text {
-      text-shadow: 0 0 5px #8B5CF6, 0 0 10px #22D3EE;
+    .dragon-text {
+      text-shadow: 0 0 5px rgba(255, 255, 255, 0.7), 0 0 10px rgba(255, 255, 255, 0.5);
     }
-    .animate-glow {
-      animation: glow 2s ease-in-out infinite alternate;
+    .animate-dragon-glow {
+      animation: dragonGlow 2s ease-in-out infinite alternate;
     }
     .animate-pulse {
       animation: pulse 1.5s ease-in-out infinite;
     }
-    @keyframes glow {
-      from { box-shadow: 0 0 10px #8B5CF6, 0 0 20px #22D3EE; }
-      to { box-shadow: 0 0 20px #8B5CF6, 0 0 30px #22D3EE; }
+    .animate-spin-slow {
+      animation: spin 4s linear infinite;
+    }
+    @keyframes dragonGlow {
+      from { box-shadow: 0 0 10px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.3); }
+      to { box-shadow: 0 0 20px rgba(255, 255, 255, 0.7), 0 0 40px rgba(255, 255, 255, 0.5); }
     }
     @keyframes pulse {
       0%, 100% { opacity: 1; }
       50% { opacity: 0.8; }
+    }
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
     }
   </style>
 </body>

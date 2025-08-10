@@ -12,9 +12,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="bg-black text-lime-400 font-cinzel transition-colors duration-500" id="body">
-  <div id="background" class="fixed inset-0 z-0"></div>
-  <div id="root" class="relative z-10"></div>
+<body class="bg-blue-800 text-yellow-400 font-cinzel transition-colors duration-500" id="body">
+  <div id="background" class="fixed inset-0 z-0 bg-cover bg-center" style="background-image: url('https://cdn.discordapp.com/attachments/1333377158265049099/1404075036809363497/banner.png?ex=6899de47&is=68988cc7&hm=619cdcaf2a63425832f4b0105e57d94559e9cd3e5ab14a6efee3cf790b5030c9&');"></div>
+  <div id="root" className="relative z-10"></div>
   <script type="text/babel">
     const { useState, useEffect } = React;
 
@@ -68,93 +68,102 @@
 
       const toggleDarkMode = () => {
         setIsDarkMode(!isDarkMode);
-        document.getElementById('body').classList.toggle('bg-gray-800');
-        document.getElementById('body').classList.toggle('bg-black');
+        document.getElementById('body').classList.toggle('bg-blue-900');
+        document.getElementById('body').classList.toggle('bg-blue-800');
         playClickSound();
+      };
+
+      const scrollToNextSection = () => {
+        playClickSound();
+        const sections = ['about', 'hobbies', 'likes', 'info'];
+        const currentIndex = sections.indexOf(activeSection);
+        const nextIndex = (currentIndex + 1) % sections.length;
+        setActiveSection(sections[nextIndex]);
+        document.querySelector(`[data-section="${sections[nextIndex]}"]`)?.scrollIntoView({ behavior: 'smooth' });
       };
 
       const sections = {
         about: (
-          <section className="min-h-screen flex flex-col justify-center items-center text-center px-4 animate-lime-glow">
+          <section className="min-h-screen flex flex-col justify-center items-center text-center px-4 animate-yellow-glow" data-section="about">
             <img
               src="https://cdn.discordapp.com/attachments/1333377158265049099/1403474474900394196/IMG_20250808_015418_753.webp?ex=6897aef6&is=68965d76&hm=e60804770aedeee01d01fb31f8fab78dbaa1c22ea3b7ddef328f2ca9d77792c3&"
               alt="Profile Picture"
-              className="w-32 h-32 rounded-full mb-6 border-4 border-lime-400 shadow-lime-600/50 object-cover hover:scale-110 transition-transform"
+              className="w-32 h-32 rounded-full mb-6 border-4 border-yellow-400 shadow-yellow-600/50 object-cover hover:scale-110 transition-transform"
             />
-            <h2 className="text-5xl font-bold mb-6 bg-gradient-to-r from-lime-400 to-lime-600 bg-clip-text text-transparent animate-pulse">
+            <h2 className="text-5xl font-bold mb-6 bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent animate-pulse">
               About Me
             </h2>
-            <p className="text-xl max-w-3xl lime-border p-6 rounded-lg bg-black/70">
+            <p className="text-xl max-w-3xl yellow-border p-6 rounded-lg bg-blue-900/70">
               Hi there, im Cam also known as tps.dll on most platforms and im an 18 year old Website and Discord Bot Developer based out of the UK with a deep passion for coding and gaming!
             </p>
             <div className="mt-8 animate-bounce">
-              <i className="fas fa-chevron-down text-2xl text-lime-400"></i>
+              <i className="fas fa-chevron-down text-2xl text-yellow-400" onClick={scrollToNextSection}></i>
             </div>
           </section>
         ),
         hobbies: (
-          <section className="min-h-screen flex flex-col justify-center items-center text-center px-4 animate-lime-glow">
-            <h2 className="text-5xl font-bold mb-6 bg-gradient-to-r from-lime-400 to-lime-600 bg-clip-text text-transparent animate-pulse">
+          <section className="min-h-screen flex flex-col justify-center items-center text-center px-4 animate-yellow-glow" data-section="hobbies">
+            <h2 className="text-5xl font-bold mb-6 bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent animate-pulse">
               My Hobbies
             </h2>
-            <ul className="text-xl max-w-3xl space-y-4 lime-border p-6 rounded-lg bg-black/70">
+            <ul className="text-xl max-w-3xl space-y-4 yellow-border p-6 rounded-lg bg-blue-900/70">
               <li className="hover:scale-105 transition-transform">🐉 Gaming: I play games such as Minecraft, Fortnite and COD</li>
               <li className="hover:scale-105 transition-transform">📜 Sleep: I enjoy sleeping a lot!</li>
               <li className="hover:scale-105 transition-transform">🎨 Exploring: I sometimes enjoy going out and just walking around for no reason whatsoever</li>
               <li className="hover:scale-105 transition-transform">🌌 Other: Welp thats about it, im a pretty boring and normal guy!</li>
             </ul>
             <div className="mt-8 animate-bounce">
-              <i className="fas fa-chevron-down text-2xl text-lime-400"></i>
+              <i className="fas fa-chevron-down text-2xl text-yellow-400" onClick={scrollToNextSection}></i>
             </div>
           </section>
         ),
         likes: (
-          <section className="min-h-screen flex flex-col justify-center items-center text-center px-4 animate-lime-glow">
-            <h2 className="text-5xl font-bold mb-6 bg-gradient-to-r from-lime-400 to-lime-600 bg-clip-text text-transparent animate-pulse">
+          <section className="min-h-screen flex flex-col justify-center items-center text-center px-4 animate-yellow-glow" data-section="likes">
+            <h2 className="text-5xl font-bold mb-6 bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent animate-pulse">
               Likes & Dislikes
             </h2>
-            <div className="text-xl max-w-3xl space-y-6 lime-border p-6 rounded-lg bg-black/70">
+            <div className="text-xl max-w-3xl space-y-6 yellow-border p-6 rounded-lg bg-blue-900/70">
               <div>
-                <h3 className="text-2xl font-semibold text-lime-400">Likes</h3>
+                <h3 className="text-2xl font-semibold text-yellow-400">Likes</h3>
                 <p>I like sleeping, eating, gaming and my cats.</p>
               </div>
               <div>
-                <h3 className="text-2xl font-semibold text-lime-600">Dislikes</h3>
+                <h3 className="text-2xl font-semibold text-yellow-600">Dislikes</h3>
                 <p>I dislike spicy food and early mornings.</p>
               </div>
             </div>
             <div className="mt-8 animate-bounce">
-              <i className="fas fa-chevron-down text-2xl text-lime-400"></i>
+              <i className="fas fa-chevron-down text-2xl text-yellow-400" onClick={scrollToNextSection}></i>
             </div>
           </section>
         ),
         info: (
-          <section className="min-h-screen flex flex-col justify-center items-center text-center px-4 animate-lime-glow">
-            <h2 className="text-5xl font-bold mb-6 bg-gradient-to-r from-lime-400 to-lime-600 bg-clip-text text-transparent animate-pulse">
+          <section className="min-h-screen flex flex-col justify-center items-center text-center px-4 animate-yellow-glow" data-section="info">
+            <h2 className="text-5xl font-bold mb-6 bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent animate-pulse">
               Additional Info
             </h2>
-            <div className="text-xl max-w-3xl space-y-4 lime-border p-6 rounded-lg bg-black/70">
-              <p><strong>Birthday:</strong> 10.02.2007</p>
+            <div className="text-xl max-w-3xl space-y-4 yellow-border p-6 rounded-lg bg-blue-900/70">
+              <p><strong>Date of Birth:</strong> 10.02.2007</p>
               <p><strong>Discord Username:</strong> tps.dll</p>
-              <p><strong>Discord Server:</strong> <a href="https://dsc.gg/tpsdll" className="text-lime-400 hover:text-lime-600 transition-colors">Click Here!</a></p>
+              <p><strong>Discord Server:</strong> <a href="https://dsc.gg/tpsdll" className="text-yellow-400 hover:text-yellow-600 transition-colors">Join my Discord!</a></p>
               <p><strong>Quote of the Day:</strong> "{quote.text}" - {quote.author}</p>
               <div className="flex justify-center space-x-6 mt-4">
-                <a href="https://dsc.gg/tpsdll" className="text-3xl hover:text-lime-600 transition-colors relative ripple-icon" onMouseEnter={playHoverSound} onClick={playClickSound}>
+                <a href="https://dsc.gg/tpsdll" className="text-3xl hover:text-yellow-600 transition-colors relative ripple-icon" onMouseEnter={playHoverSound} onClick={playClickSound}>
                   <i className="fab fa-discord"></i>
                 </a>
-                <a href="mailto:tpsdll.business@gmail.com" className="text-3xl hover:text-lime-600 transition-colors relative ripple-icon" onMouseEnter={playHoverSound} onClick={playClickSound}>
+                <a href="mailto:tpsdll.business@gmail.com" className="text-3xl hover:text-yellow-600 transition-colors relative ripple-icon" onMouseEnter={playHoverSound} onClick={playClickSound}>
                   <i className="fas fa-envelope"></i>
                 </a>
-                <a href="http://instagram.com/ykcam.exe" className="text-3xl hover:text-lime-600 transition-colors relative ripple-icon" onMouseEnter={playHoverSound} onClick={playClickSound}>
+                <a href="http://instagram.com/ykcam.exe" className="text-3xl hover:text-yellow-600 transition-colors relative ripple-icon" onMouseEnter={playHoverSound} onClick={playClickSound}>
                   <i className="fab fa-instagram"></i>
                 </a>
-                <a href="http://tiktok.com/@ysl.cam" className="text-3xl hover:text-lime-600 transition-colors relative ripple-icon" onMouseEnter={playHoverSound} onClick={playClickSound}>
+                <a href="http://tiktok.com/@ysl.cam" className="text-3xl hover:text-yellow-600 transition-colors relative ripple-icon" onMouseEnter={playHoverSound} onClick={playClickSound}>
                   <i className="fab fa-tiktok"></i>
                 </a>
               </div>
             </div>
             <div className="mt-8 animate-bounce">
-              <i className="fas fa-chevron-down text-2xl text-lime-400"></i>
+              <i className="fas fa-chevron-down text-2xl text-yellow-400" onClick={scrollToNextSection}></i>
             </div>
           </section>
         ),
@@ -163,10 +172,10 @@
       console.log('Rendering App component with activeSection:', activeSection);
       return (
         <div>
-          <div className="fixed top-4 right-4 z-30 flex items-center space-x-4 text-lime-400">
+          <div className="fixed top-4 right-4 z-30 flex items-center space-x-4 text-yellow-400">
             <button
               onClick={toggleDarkMode}
-              className="text-2xl hover:text-lime-600 transition-colors"
+              className="text-2xl hover:text-yellow-600 transition-colors"
               title={isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
               onMouseEnter={playHoverSound}
             >
@@ -178,19 +187,19 @@
             </div>
           </div>
           <div className="fixed top-16 w-full text-center z-20 animate-fade-in">
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-lime-400 to-lime-600 bg-clip-text text-transparent">
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent">
               Welcome to tpsdll.xyz
             </h1>
           </div>
-          <nav className="fixed top-28 w-full bg-black/80 backdrop-blur-md shadow-lg shadow-lime-600/20 z-20">
+          <nav className="fixed top-28 w-full bg-blue-900/80 backdrop-blur-md shadow-lg shadow-yellow-600/20 z-20">
             <ul className="flex justify-center space-x-8 py-4">
               {Object.keys(sections).map((section) => (
                 <li key={section}>
                   <button
                     onClick={() => { setActiveSection(section); playClickSound(); }}
                     onMouseEnter={playHoverSound}
-                    className={`text-lg font-bold capitalize lime-text hover:scale-110 transition-transform ${
-                      activeSection === section ? 'text-lime-400' : 'text-lime-200'
+                    className={`text-lg font-bold capitalize yellow-text hover:scale-110 transition-transform ${
+                      activeSection === section ? 'text-yellow-400' : 'text-yellow-200'
                     }`}
                   >
                     {section}
@@ -218,18 +227,15 @@
     .font-cinzel {
       font-family: 'Cinzel', serif;
     }
-    .lime-border {
-      border: 2px solid #00FF00;
-      box-shadow: 0 0 15px rgba(0, 255, 0, 0.5), 0 0 30px rgba(0, 255, 0, 0.3);
-      background: url('https://img.icons8.com/ios-filled/50/00FF00/snake.png') no-repeat center/50px, 
-                  url('https://img.icons8.com/ios-filled/50/00FF00/dragon.png') no-repeat center/50px;
-      background-position: top left, bottom right;
+    .yellow-border {
+      border: 2px solid #FFFF00;
+      box-shadow: 0 0 15px rgba(255, 255, 0, 0.5), 0 0 30px rgba(255, 255, 0, 0.3);
     }
-    .lime-text {
-      text-shadow: 0 0 5px rgba(0, 255, 0, 0.7), 0 0 10px rgba(0, 255, 0, 0.5);
+    .yellow-text {
+      text-shadow: 0 0 5px rgba(255, 255, 0, 0.7), 0 0 10px rgba(255, 255, 0, 0.5);
     }
-    .animate-lime-glow {
-      animation: limeGlow 2s ease-in-out infinite alternate;
+    .animate-yellow-glow {
+      animation: yellowGlow 2s ease-in-out infinite alternate;
     }
     .animate-pulse {
       animation: pulse 1.5s ease-in-out infinite;
@@ -241,63 +247,15 @@
       animation: bounce 2s infinite;
     }
     #background {
-      background: #000000;
-      background-image: url('https://img.icons8.com/ios-filled/50/00FF00/grid.png');
-      background-size: 50px;
-      background-repeat: repeat;
-      opacity: 0.1;
-    }
-    #background::before,
-    #background::after {
-      content: '';
-      position: absolute;
-      background-size: contain;
-      opacity: 0.3;
-      animation: pulseGlow 3s ease-in-out infinite;
-    }
-    #background::before {
-      background-image: url('https://img.icons8.com/ios-filled/150/00FF00/dragon.png');
-      width: 250px;
-      height: 250px;
-      top: 5%;
-      left: 5%;
-      box-shadow: 0 0 30px rgba(0, 255, 0, 0.7);
-      transform: translateZ(0);
-    }
-    #background::after {
-      background-image: url('https://img.icons8.com/ios-filled/150/00FF00/snake.png');
-      width: 250px;
-      height: 250px;
-      bottom: 5%;
-      right: 5%;
-      box-shadow: 0 0 30px rgba(0, 255, 0, 0.7);
-      animation-direction: alternate;
-      transform: translateZ(0);
-    }
-    #background > .glow-orb {
-      position: absolute;
-      width: 15px;
-      height: 15px;
-      background: radial-gradient(circle, rgba(0, 255, 0, 0.9) 0%, rgba(0, 255, 0, 0) 70%);
-      border-radius: 50%;
-      animation: floatParticle 10s linear infinite;
-      pointer-events: none;
-    }
-    #background > .lime-particle {
-      position: absolute;
-      width: 8px;
-      height: 8px;
-      background: #32CD32;
-      border-radius: 50%;
-      animation: floatParticle 12s linear infinite reverse;
-      pointer-events: none;
+      background-size: cover;
+      background-position: center;
     }
     .ripple-icon::after {
       content: '';
       position: absolute;
       width: 100%;
       height: 100%;
-      background: radial-gradient(circle, rgba(0, 255, 0, 0.5) 10%, transparent 70%);
+      background: radial-gradient(circle, rgba(255, 255, 0, 0.5) 10%, transparent 70%);
       border-radius: 50%;
       transform: scale(0);
       animation: ripple 1s ease-out forwards;
@@ -326,9 +284,9 @@
       50% { transform: translate(20px, -20px); opacity: 0.2; }
       100% { transform: translate(0, 0); opacity: 0.5; }
     }
-    @keyframes limeGlow {
-      from { box-shadow: 0 0 10px rgba(0, 255, 0, 0.5), 0 0 20px rgba(0, 255, 0, 0.3); }
-      to { box-shadow: 0 0 20px rgba(0, 255, 0, 0.7), 0 0 40px rgba(0, 255, 0, 0.5); }
+    @keyframes yellowGlow {
+      from { box-shadow: 0 0 10px rgba(255, 255, 0, 0.5), 0 0 20px rgba(255, 255, 0, 0.3); }
+      to { box-shadow: 0 0 20px rgba(255, 255, 0, 0.7), 0 0 40px rgba(255, 255, 0, 0.5); }
     }
     @keyframes pulse {
       0%, 100% { opacity: 1; }

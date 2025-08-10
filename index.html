@@ -31,17 +31,17 @@
   <div class="hero">
     <div>
       <div class="banner" id="bannerPreview">
-        <img id="bannerImg" src="https://cdn.discordapp.com/attachments/1333377158265049099/1404075036809363497/banner.png?ex=6899de47&is=68988cc7&hm=619cdcaf2a63425832f4b0105e57d94559e9cd3e5ab14a6efee3cf790b5030c9&" alt="banner" />
+        <img id="bannerImg" src="https://cdn.discordapp.com/attachments/1333377158265049099/1404075036809363497/banner.png" alt="banner" />
       </div>
     </div>
     <aside class="profile-card">
       <div style="display:flex;gap:14px;align-items:center">
         <div class="avatar float" id="avatarPreview">
-          <img id="avatarImg" src="https://cdn.discordapp.com/attachments/1333377158265049099/1403474474900394196/IMG_20250808_015418_753.webp?ex=6899a936&is=689857b6&hm=bbb21355ce20b39b0817fc7815c9dade45ada8469edb0de6133378c48389e375&" alt="avatar">
+          <img id="avatarImg" src="https://cdn.discordapp.com/attachments/1333377158265049099/1403474474900394196/IMG_20250808_015418_753.webp" alt="avatar">
         </div>
         <div>
-          <h1 id="displayName">Your Name</h1>
-          <p class="lead">Short bio — write something cool about yourself.</p>
+          <h1 id="displayName">tpsdll</h1>
+          <p class="lead">Developer & Creator of tpsdll.xyz</p>
         </div>
       </div>
     </aside>
@@ -51,10 +51,10 @@
     <div style="min-width:300px">
       <small style="opacity:.7">Discord Widget Preview</small>
       <div id="discordPreviewArea" class="discord-widget" style="margin-top:8px">
-        <div class="discord-avatar"><img id="discordAvatar" src="" alt="avatar" style="width:100%;height:100%;object-fit:cover"></div>
+        <div class="discord-avatar"><img id="discordAvatar" src="https://cdn.discordapp.com/avatars/1196398244662628394/embed.png?size=128" alt="avatar" style="width:100%;height:100%;object-fit:cover"></div>
         <div>
-          <div id="discordName" style="font-weight:800">Discord User</div>
-          <div id="discordId" style="opacity:.6;font-size:13px">ID: (not set)</div>
+          <div id="discordName" style="font-weight:800">tpsdll</div>
+          <div id="discordId" style="opacity:.6;font-size:13px">ID: 1196398244662628394</div>
         </div>
       </div>
     </div>
@@ -76,14 +76,6 @@
     let count = parseInt(localStorage.getItem(key) || '0',10) + 1;
     localStorage.setItem(key,count);
     document.getElementById('viewCount').textContent = count;
-
-    const id = "1196398244662628394";
-    document.getElementById('discordId').textContent = 'ID: ' + id;
-    const tryUrl = `https://cdn.discordapp.com/avatars/${id}/embed.png?size=128`;
-    const img = new Image();
-    img.onload = ()=> document.getElementById('discordAvatar').src = tryUrl;
-    img.onerror = ()=> document.getElementById('discordAvatar').src = 'https://cdn.discordapp.com/embed/avatars/0.png';
-    img.src = tryUrl;
   });
   document.getElementById('enterBtn').onclick = () => document.getElementById('welcomeModal').style.display='none';
   document.getElementById('dismissBtn').onclick = () => document.getElementById('welcomeModal').style.display='none';

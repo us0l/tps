@@ -1,120 +1,232 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>tpsdll.xyz — About Me</title>
-<style>
-  body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #0e0e0e;
-    color: white;
-  }
-
-  /* Hero banner */
-  .hero {
-    position: relative;
-    text-align: center;
-  }
-  .hero img {
-    width: 100%;
-    height: 250px;
-    object-fit: cover;
-    display: block;
-  }
-
-  /* Profile image overlapping banner */
-  .avatar {
-    position: absolute;
-    bottom: -60px;
-    left: 50%;
-    transform: translateX(-50%);
-    border: 4px solid #0e0e0e;
-    border-radius: 50%;
-    width: 120px;
-    height: 120px;
-    overflow: hidden;
-  }
-  .avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  /* Name & tagline */
-  .profile-info {
-    margin-top: 80px;
-    text-align: center;
-  }
-  .profile-info h1 {
-    margin: 0;
-    font-size: 28px;
-  }
-  .profile-info p {
-    margin: 5px 0;
-    opacity: 0.8;
-  }
-
-  /* Discord widget */
-  .discord-widget {
-    max-width: 300px;
-    margin: 40px auto;
-    background: #1c1c1c;
-    border-radius: 10px;
-    padding: 15px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .discord-avatar {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    overflow: hidden;
-    flex-shrink: 0;
-  }
-  .discord-avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  .discord-info {
-    font-size: 14px;
-  }
-  .discord-info strong {
-    display: block;
-    font-size: 16px;
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>tpsdll.xyz</title>
+  <link rel="icon" type="image/webp" href="">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.20.15/babel.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body>
+<body class="bg-blue-600 text-yellow-400 font-cinzel transition-colors duration-500 min-h-screen" id="body">
+  <div id="background" class="fixed inset-0 z-0 bg-cover bg-center" style="background-image: url(''); /* Line 23: Replace with your site banner URL */"></div>
+  <div id="root" class="relative z-10"></div>
+  <script type="text/babel">
+    const { useState, useEffect } = React;
 
-<!-- Banner -->
-<div class="hero">
-  <img src="https://cdn.discordapp.com/attachments/1333377158265049099/1404075036809363497/banner.png" alt="Banner">
-  <div class="avatar">
-    <img src="https://cdn.discordapp.com/attachments/1333377158265049099/1403474474900394196/IMG_20250808_015418_753.webp?ex=6899a936&is=689857b6&hm=bbb21355ce20b39b0817fc7815c9dade45ada8469edb0de6133378c48389e375&" alt="Avatar">
-  </div>
-</div>
+    function App() {
+      const [viewCount, setViewCount] = useState(0);
+      const [profilePic, setProfilePic] = useState('https://cdn.discordapp.com/attachments/1333377158265049099/1403474474900394196/IMG_20250808_015418_753.webp?ex=6899a936&is=689857b6&hm=bbb21355ce20b39b0817fc7815c9dade45ada8469edb0de6133378c48389e375&');
+      const [bannerUrl, setBannerUrl] = useState('https://cdn.discordapp.com/attachments/1333377158265049099/1404075036809363497/banner.png?ex=6899de47&is=68988cc7&hm=619cdcaf2a63425832f4b0105e57d94559e9cd3e5ab14a6efee3cf790b5030c9&');
+      const [discordUserId, setDiscordUserId] = useState('1196398244662628394');
+      const [discordPreview, setDiscordPreview] = useState(null);
+      const [showWelcome, setShowWelcome] = useState(true);
 
-<!-- Name & tagline -->
-<div class="profile-info">
-  <h1>tpsdll</h1>
-  <p>Developer & Creator of tpsdll.xyz</p>
-  <p style="font-size:13px;opacity:.6;">ID: 1196398244662628394</p>
-</div>
+      // View counter
+      useEffect(() => {
+        try {
+          const views = parseInt(localStorage.getItem('pageViews') || '0') + 1;
+          localStorage.setItem('pageViews', views);
+          setViewCount(views);
+          console.log('Page views:', views);
+        } catch (error) {
+          console.error('Error updating view count:', error);
+        }
+      }, []);
 
-<!-- Discord widget -->
-<div class="discord-widget">
-  <div class="discord-avatar">
-    <img src="https://cdn.discordapp.com/attachments/1333377158265049099/1403474474900394196/IMG_20250808_015418_753.webp?ex=6899a936&is=689857b6&hm=bbb21355ce20b39b0817fc7815c9dade45ada8469edb0de6133378c48389e375&" alt="Discord Avatar">
-  </div>
-  <div class="discord-info">
-    <strong>tpsdll</strong>
-    ID: 1196398244662628394
-  </div>
-</div>
+      // Fetch Discord preview (placeholder, replace with actual API if available)
+      useEffect(() => {
+        if (discordUserId) {
+          try {
+            // Placeholder: Simulate Discord widget fetch (replace with real API endpoint)
+            fetch(`https://api.discord.com/users/${discordUserId}/profile`, { // Note: This is a mock; use a real Discord API endpoint
+              headers: { Authorization: 'Bearer YOUR_TOKEN' } // Replace with your Discord bot token
+            })
+              .then((response) => response.json())
+              .then((data) => setDiscordPreview({
+                username: data.username || 'tps.dll',
+                avatar: data.avatar || 'https://via.placeholder.com/50',
+                status: 'online'
+              }))
+              .catch((error) => {
+                console.error('Error fetching Discord preview:', error);
+                setDiscordPreview({ username: 'tps.dll', avatar: 'https://via.placeholder.com/50', status: 'offline' });
+              });
+          } catch (error) {
+            console.error('Discord fetch error:', error);
+            setDiscordPreview({ username: 'tps.dll', avatar: 'https://via.placeholder.com/50', status: 'offline' });
+          }
+        }
+      }, [discordUserId]);
 
+      // Hide welcome screen after 3 seconds
+      useEffect(() => {
+        const timer = setTimeout(() => setShowWelcome(false), 3000);
+        return () => clearTimeout(timer);
+      }, []);
+
+      const scrollToSection = (sectionId) => {
+        document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+      };
+
+      return (
+        <div>
+          {showWelcome && (
+            <div className="fixed inset-0 bg-blue-700 flex items-center justify-center z-50 bg-opacity-90 transition-opacity duration-1000 ease-in-out">
+              <h1 className="text-6xl font-bold text-yellow-400 animate-pulse">Welcome to tpsdll.xyz!</h1>
+            </div>
+          )}
+          <div className="fixed top-4 right-4 z-30 text-yellow-400">
+            <div className="flex items-center space-x-2">
+              <i className="fas fa-eye"></i>
+              <span>{viewCount} Views</span>
+            </div>
+          </div>
+          <nav className="fixed top-20 w-full bg-blue-700/80 backdrop-blur-md shadow-lg shadow-yellow-600/20 z-30 p-4">
+            <div className="flex justify-center space-x-6">
+              <button onClick={() => scrollToSection('about')} className="bg-gradient-to-r from-blue-700 to-blue-800 text-white px-6 py-3 rounded-lg shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300">About Me</button>
+              <button onClick={() => scrollToSection('hobbies')} className="bg-gradient-to-r from-blue-700 to-blue-800 text-white px-6 py-3 rounded-lg shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300">Hobbies</button>
+              <button onClick={() => scrollToSection('likes')} className="bg-gradient-to-r from-blue-700 to-blue-800 text-white px-6 py-3 rounded-lg shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300">Likes</button>
+              <button onClick={() => scrollToSection('contact')} className="bg-gradient-to-r from-blue-700 to-blue-800 text-white px-6 py-3 rounded-lg shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300">Contact Info</button>
+            </div>
+          </nav>
+          <div className="pt-32">
+            <section id="about" className="min-h-screen flex flex-col items-center justify-center text-center p-6 animate-fade-in">
+              <input
+                type="text"
+                value={profilePic}
+                onChange={(e) => setProfilePic(e.target.value)}
+                placeholder="Enter profile picture URL"
+                className="mb-4 p-2 border-2 border-yellow-400 bg-blue-600 text-yellow-400 rounded-lg"
+              />
+              <img src={profilePic} alt="Profile Picture" className="w-40 h-40 rounded-full border-4 border-yellow-400 shadow-yellow-600/50 object-cover hover:scale-110 transition-transform" />
+              <h2 className="text-5xl font-bold mt-6 bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent">About Me</h2>
+              <p className="text-xl max-w-3xl mt-4 yellow-border p-6 rounded-lg bg-blue-700/70">
+                Hi there, I'm Cam, also known as tps.dll on most platforms. I'm an 18-year-old Website and Discord Bot Developer based out of the UK with a deep passion for coding and gaming!
+              </p>
+            </section>
+            <section id="hobbies" className="min-h-screen flex flex-col items-center justify-center text-center p-6 animate-fade-in">
+              <h2 className="text-5xl font-bold bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent">My Hobbies</h2>
+              <ul className="text-xl max-w-3xl mt-4 space-y-4 yellow-border p-6 rounded-lg bg-blue-700/70">
+                <li className="hover:scale-105 transition-transform">🐉 Gaming: I play games such as Minecraft, Fortnite, and COD</li>
+                <li className="hover:scale-105 transition-transform">📜 Sleep: I enjoy sleeping a lot!</li>
+                <li className="hover:scale-105 transition-transform">🎨 Exploring: I sometimes enjoy going out and just walking around</li>
+                <li className="hover:scale-105 transition-transform">🌌 Other: That's about it, I'm a pretty normal guy!</li>
+              </ul>
+            </section>
+            <section id="likes" className="min-h-screen flex flex-col items-center justify-center text-center p-6 animate-fade-in">
+              <h2 className="text-5xl font-bold bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent">Likes & Dislikes</h2>
+              <div className="text-xl max-w-3xl mt-4 space-y-6 yellow-border p-6 rounded-lg bg-blue-700/70">
+                <div>
+                  <h3 className="text-2xl font-semibold text-yellow-400">Likes</h3>
+                  <p>I like sleeping, eating, gaming, and my cats.</p>
+                </div>
+                <div>
+                  <h3 className="text-2xl font-semibold text-yellow-600">Dislikes</h3>
+                  <p>I dislike spicy food and early mornings.</p>
+                </div>
+              </div>
+            </section>
+            <section id="contact" className="min-h-screen flex flex-col items-center justify-center text-center p-6 animate-fade-in">
+              <h2 className="text-5xl font-bold bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent">Contact Info</h2>
+              <div className="text-xl max-w-3xl mt-4 space-y-4 yellow-border p-6 rounded-lg bg-blue-700/70">
+                <p><strong>Date of Birth:</strong> 10.02.2007</p>
+                <p><strong>Discord Username:</strong> tps.dll</p>
+                <div className="flex justify-center space-x-6 mt-4">
+                  <a href="https://dsc.gg/tpsdll" className="text-3xl text-yellow-400 hover:text-yellow-600 transition-colors ripple-icon">
+                    <i className="fab fa-discord"></i>
+                  </a>
+                  <a href="mailto:tpsdll.business@gmail.com" className="text-3xl text-yellow-400 hover:text-yellow-600 transition-colors ripple-icon">
+                    <i className="fas fa-envelope"></i>
+                  </a>
+                  <a href="http://instagram.com/ykcam.exe" className="text-3xl text-yellow-400 hover:text-yellow-600 transition-colors ripple-icon">
+                    <i className="fab fa-instagram"></i>
+                  </a>
+                  <a href="http://tiktok.com/@ysl.cam" className="text-3xl text-yellow-400 hover:text-yellow-600 transition-colors ripple-icon">
+                    <i className="fab fa-tiktok"></i>
+                  </a>
+                </div>
+                <input
+                  type="text"
+                  value={bannerUrl}
+                  onChange={(e) => setBannerUrl(e.target.value)}
+                  placeholder="Enter site banner URL"
+                  className="mt-4 p-2 border-2 border-yellow-400 bg-blue-600 text-yellow-400 rounded-lg"
+                />
+                <input
+                  type="text"
+                  value={discordUserId}
+                  onChange={(e) => setDiscordUserId(e.target.value)}
+                  placeholder="Enter Discord User ID"
+                  className="mt-2 p-2 border-2 border-yellow-400 bg-blue-600 text-yellow-400 rounded-lg"
+                />
+                {discordPreview && (
+                  <div className="mt-4 p-4 yellow-border rounded-lg bg-blue-700/70">
+                    <img src={discordPreview.avatar} alt="Discord Avatar" className="w-12 h-12 rounded-full inline-block mr-2" />
+                    <span>{discordPreview.username} - {discordPreview.status}</span>
+                  </div>
+                )}
+              </div>
+            </section>
+          </div>
+        </div>
+      );
+    }
+
+    try {
+      console.log('Attempting to render ReactDOM');
+      ReactDOM.render(<App />, document.getElementById('root'));
+      console.log('ReactDOM rendered successfully');
+    } catch (error) {
+      console.error('ReactDOM render error:', error);
+    }
+  </script>
+  <style>
+    .font-cinzel {
+      font-family: 'Cinzel', serif;
+    }
+    .yellow-border {
+      border: 2px solid #FFFF00;
+      box-shadow: 0 0 15px rgba(255, 255, 0, 0.5), 0 0 30px rgba(255, 255, 0, 0.3);
+    }
+    .ripple-icon::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(255, 255, 0, 0.5) 10%, transparent 70%);
+      border-radius: 50%;
+      transform: scale(0);
+      animation: ripple 1s ease-out forwards;
+      pointer-events: none;
+      top: 0;
+      left: 0;
+    }
+    .ripple-icon:hover::after {
+      animation: ripple 1s ease-out forwards;
+    }
+    .animate-fade-in {
+      animation: fadeIn 1s ease-in;
+    }
+    .animate-pulse {
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+    @keyframes ripple {
+      0% { transform: scale(0); opacity: 0.5; }
+      100% { transform: scale(2); opacity: 0; }
+    }
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.8; }
+    }
+  </style>
 </body>
 </html>

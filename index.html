@@ -13,16 +13,16 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="bg-blue-600 text-yellow-400 font-cinzel transition-colors duration-500 min-h-screen" id="body">
-  <div id="background" class="fixed inset-0 z-0 bg-cover bg-center" style="background-image: url(''); /* Line 23: Replace with your site banner URL */"></div>
+  <div id="background" class="fixed inset-0 z-0 bg-cover bg-center" style="background-image: url(''); /* Replace with your site banner URL */"></div>
   <div id="root" class="relative z-10"></div>
   <script type="text/babel">
     const { useState, useEffect } = React;
 
     function App() {
       const [viewCount, setViewCount] = useState(0);
-      const [profilePic, setProfilePic] = useState('https://cdn.discordapp.com/attachments/1333377158265049099/1403474474900394196/IMG_20250808_015418_753.webp?ex=6899a936&is=689857b6&hm=bbb21355ce20b39b0817fc7815c9dade45ada8469edb0de6133378c48389e375&');
-      const [bannerUrl, setBannerUrl] = useState('https://cdn.discordapp.com/attachments/1333377158265049099/1404075036809363497/banner.png?ex=6899de47&is=68988cc7&hm=619cdcaf2a63425832f4b0105e57d94559e9cd3e5ab14a6efee3cf790b5030c9&');
-      const [discordUserId, setDiscordUserId] = useState('1196398244662628394');
+      const [profilePic, setProfilePic] = useState('https://cdn.discordapp.com/attachments/1333377158265049099/1403474474900394196/IMG_20250808_015418_753.webp?ex=6899a936&is=689857b6&hm=bbb21355ce20b39b0817fc7815c9dade45ada8469edb0de6133378c48389e375&'); /* Replace with your profile picture URL */
+      const [bannerUrl, setBannerUrl] = useState('https://cdn.discordapp.com/attachments/1333377158265049099/1404075036809363497/banner.png?ex=6899de47&is=68988cc7&hm=619cdcaf2a63425832f4b0105e57d94559e9cd3e5ab14a6efee3cf790b5030c9&'); /* Replace with your site banner URL */
+      const [discordUserId, setDiscordUserId] = useState('1196398244662628394'); /* Replace with your Discord User ID */
       const [discordPreview, setDiscordPreview] = useState(null);
       const [showWelcome, setShowWelcome] = useState(true);
 
@@ -38,27 +38,46 @@
         }
       }, []);
 
-      // Fetch Discord preview (placeholder, replace with actual API if available)
+      // Fetch Discord user data using API
       useEffect(() => {
-        if (discordUserId) {
+        const botToken = 'YOUR_BOT_TOKEN_HERE'; // Replace with your bot token from Discord Developer Portal
+        if (discordUserId && botToken) {
           try {
-            // Placeholder: Simulate Discord widget fetch (replace with real API endpoint)
-            fetch(`https://api.discord.com/users/${discordUserId}/profile`, { // Note: This is a mock; use a real Discord API endpoint
-              headers: { Authorization: 'Bearer YOUR_TOKEN' } // Replace with your Discord bot token
+            fetch(`https://discord.com/api/v10/users/${discordUserId}`, {
+              headers: {
+                Authorization: `Bot ${botToken}`,
+                'Content-Type': 'application/json'
+              }
             })
-              .then((response) => response.json())
-              .then((data) => setDiscordPreview({
-                username: data.username || 'tps.dll',
-                avatar: data.avatar || 'https://via.placeholder.com/50',
-                status: 'online'
-              }))
+              .then((response) => {
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                return response.json();
+              })
+              .then((data) => {
+                const avatarUrl = data.avatar
+                  ? `https://cdn.discordapp.com/avatars/${discordUserId}/${data.avatar}.png?size=128`
+                  : 'https://via.placeholder.com/50';
+                setDiscordPreview({
+                  username: data.username || 'tps.dll',
+                  avatar: avatarUrl,
+                  status: 'online' // Note: Status requires presence intent; simplified here
+                });
+              })
               .catch((error) => {
-                console.error('Error fetching Discord preview:', error);
-                setDiscordPreview({ username: 'tps.dll', avatar: 'https://via.placeholder.com/50', status: 'offline' });
+                console.error('Error fetching Discord user data:', error);
+                setDiscordPreview({
+                  username: 'tps.dll',
+                  avatar: 'https://via.placeholder.com/50',
+                  status: 'offline'
+                });
               });
           } catch (error) {
             console.error('Discord fetch error:', error);
-            setDiscordPreview({ username: 'tps.dll', avatar: 'https://via.placeholder.com/50', status: 'offline' });
+            setDiscordPreview({
+              username: 'tps.dll',
+              avatar: 'https://via.placeholder.com/50',
+              status: 'offline'
+            });
           }
         }
       }, [discordUserId]);

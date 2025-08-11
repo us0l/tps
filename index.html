@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Portfolio</title>
-  <!-- Favicon (use a 64x64 or larger square image for best results) -->
-  <link rel="icon" type="https://cdn.discordapp.com/attachments/1333377158265049099/1403474474900394196/IMG_20250808_015418_753.webp?ex=689afab6&is=6899a936&hm=4b5c50303c9a88f6ac889253c19c86d0fbe0e79ab7da0fbd92267f9b9fae6723&">
+  <!-- Favicon (using your provided image) -->
+  <link rel="icon" type="image/webp" href="https://cdn.discordapp.com/attachments/1333377158265049099/1403474474900394196/IMG_20250808_015418_753.webp?ex=689afab6&is=6899a936&hm=4b5c50303c9a88f6ac889253c19c86d0fbe0e79ab7da0fbd92267f9b9fae6723&">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.24.7/babel.min.js"></script>
@@ -18,7 +18,7 @@
 
     // Navigation Component
     const NavBar = ({ setPage }) => (
-      <nav className="fixed top-0 w-full bg-black bg-opacity-90 p-4 shadow-md z-10">
+      <nav className="fixed top-0 w-full bg-black bg-opacity-80 p-4 shadow-md z-20">
         <ul className="flex justify-center space-x-8">
           {['About', 'Experience', 'Skills', 'Contact'].map((page) => (
             <li key={page}>
@@ -34,12 +34,6 @@
       </nav>
     );
 
-    // Banner Component
-    const Banner = () => (
-      <div className="w-full h-48 bg-cover bg-center" style={{ backgroundImage: 'url(https://cdn.discordapp.com/attachments/1333377158265049099/1404075036809363497/banner.png?ex=689a8707&is=68993587&hm=e62b7690ad04bbc664cfc58aae7e68c3d373b87bc7a1f460a09262717976071b&)' }}>
-      </div>
-    );
-
     // View Counter Component
     const ViewCounter = () => {
       const [views, setViews] = useState(0);
@@ -50,23 +44,36 @@
       }, []);
 
       return (
-        <div className="fixed bottom-4 right-4 bg-yellow-500 text-black px-4 py-2 rounded-full shadow-lg animate-pulse">
+        <div className="fixed bottom-4 right-4 bg-yellow-500 text-black px-4 py-2 rounded-full shadow-lg animate-pulse z-20">
           Views: {views}
         </div>
       );
     };
 
+    // Background Elements Component
+    const BackgroundElements = () => (
+      <div className="fixed inset-0 z-0 opacity-10 text-yellow-300 pointer-events-none overflow-hidden font-mono text-xs">
+        <div className="absolute top-[10%] left-[10%] rotate-3">console.log('Hello World');</div>
+        <div className="absolute bottom-[20%] right-[30%]">🖥️</div>
+        <div className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2">function add(a, b) { return a + b; }</div>
+        <div className="absolute bottom-[10%] left-[40%]">💻</div>
+        <div className="absolute top-[30%] right-[20%] rotate-[-5]">if (true) { alert('Success'); }</div>
+        <div className="absolute bottom-[40%] left-[20%]">🖥️</div>
+        <div className="absolute top-[70%] right-[10%]">const pi = 3.14159;</div>
+        <div className="absolute top-[20%] left-[60%]">💻</div>
+      </div>
+    );
+
     // About Component with Circular Profile Picture
     const About = () => (
-      <section className="min-h-screen flex flex-col items-center justify-center p-8 animate-fadeIn">
-        <Banner />
-        <div className="max-w-2xl text-center mt-8">
+      <section className="min-h-screen flex flex-col items-center justify-center p-8 animate-fadeIn relative z-10">
+        <div className="relative max-w-2xl text-center bg-gray-800 bg-opacity-70 backdrop-blur-sm p-8 rounded-lg shadow-xl shadow-yellow-500/20">
           <img
             src="https://cdn.discordapp.com/attachments/1333377158265049099/1403474474900394196/IMG_20250808_015418_753.webp?ex=689afab6&is=6899a936&hm=4b5c50303c9a88f6ac889253c19c86d0fbe0e79ab7da0fbd92267f9b9fae6723&"
             alt="Profile Picture"
             className="w-32 h-32 rounded-full mx-auto mb-4 shadow-lg transform hover:scale-110 transition-transform duration-300"
           />
-          <h1 className="text-4xl font-bold mb-4">About Me</h1>
+          <h1 className="text-4xl font-bold mb-4 text-yellow-300">About Me</h1>
           <p className="text-lg">
             Hi, I'm Cam or most known as TPS, a passionate 18 year old Server Developer from the UK with endless motivation and high quality work for the cheapest of prices.
           </p>
@@ -76,10 +83,9 @@
 
     // Experience Component
     const Experience = () => (
-      <section className="min-h-screen flex flex-col items-center justify-center p-8 animate-slideIn">
-        <Banner />
-        <div className="max-w-2xl mt-8">
-          <h1 className="text-4xl font-bold mb-4 text-center">Past Experiences</h1>
+      <section className="min-h-screen flex flex-col items-center justify-center p-8 animate-slideIn relative z-10">
+        <div className="relative max-w-2xl bg-gray-800 bg-opacity-70 backdrop-blur-sm p-8 rounded-lg shadow-xl shadow-yellow-500/20">
+          <h1 className="text-4xl font-bold mb-4 text-center text-yellow-300">Past Experiences</h1>
           <ul className="space-y-4">
             <li className="bg-gray-900 p-4 rounded-lg shadow-md transform hover:scale-105 transition-transform duration-300">
               <h2 className="text-xl font-semibold">Owner @ GenThrust</h2>
@@ -98,10 +104,9 @@
 
     // Skills Component
     const Skills = () => (
-      <section className="min-h-screen flex flex-col items-center justify-center p-8 animate-fadeIn">
-        <Banner />
-        <div className="max-w-2xl text-center mt-8">
-          <h1 className="text-4xl font-bold mb-4">Skills</h1>
+      <section className="min-h-screen flex flex-col items-center justify-center p-8 animate-fadeIn relative z-10">
+        <div className="relative max-w-2xl text-center bg-gray-800 bg-opacity-70 backdrop-blur-sm p-8 rounded-lg shadow-xl shadow-yellow-500/20">
+          <h1 className="text-4xl font-bold mb-4 text-yellow-300">Skills</h1>
           <div className="grid grid-cols-2 gap-4">
             {['JavaScript', 'Skript', 'Python', 'Lua (SomeWhat)'].map((skill) => (
               <div
@@ -118,10 +123,9 @@
 
     // Contact Component
     const Contact = () => (
-      <section className="min-h-screen flex flex-col items-center justify-center p-8 animate-slideIn">
-        <Banner />
-        <div className="max-w-2xl text-center mt-8">
-          <h1 className="text-4xl font-bold mb-4">Contact Me</h1>
+      <section className="min-h-screen flex flex-col items-center justify-center p-8 animate-slideIn relative z-10">
+        <div className="relative max-w-2xl text-center bg-gray-800 bg-opacity-70 backdrop-blur-sm p-8 rounded-lg shadow-xl shadow-yellow-500/20">
+          <h1 className="text-4xl font-bold mb-4 text-yellow-300">Contact Me</h1>
           <p className="text-lg mb-4">
             Feel free to reach out via email or social media!
           </p>
@@ -156,6 +160,7 @@
       return (
         <div className="relative">
           <NavBar setPage={setPage} />
+          <BackgroundElements />
           <ViewCounter />
           {renderPage()}
         </div>
@@ -186,4 +191,4 @@
     ReactDOM.render(<App />, document.getElementById('root'));
   </script>
 </body>
-</html>a
+</html>

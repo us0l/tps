@@ -50,24 +50,24 @@
       );
     };
 
-    // Background Elements Component
-    const BackgroundElements = () => (
-      <div className="fixed inset-0 z-0 opacity-10 text-yellow-300 pointer-events-none overflow-hidden font-mono text-xs">
-        <div className="absolute top-[10%] left-[10%] rotate-3">console.log('Hello World');</div>
-        <div className="absolute bottom-[20%] right-[30%]">🖥️</div>
-        <div className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2">function add(a, b) { return a + b; }</div>
-        <div className="absolute bottom-[10%] left-[40%]">💻</div>
-        <div className="absolute top-[30%] right-[20%] rotate-[-5]">if (true) { alert('Success'); }</div>
-        <div className="absolute bottom-[40%] left-[20%]">🖥️</div>
-        <div className="absolute top-[70%] right-[10%]">const pi = 3.14159;</div>
-        <div className="absolute top-[20%] left-[60%]">💻</div>
+    // Background Icons Component
+    const BackgroundIcons = () => (
+      <div className="fixed inset-0 z-0 opacity-10 text-yellow-300 pointer-events-none overflow-hidden text-2xl">
+        <div className="absolute top-[15%] left-[10%] rotate-6">💻</div>
+        <div className="absolute bottom-[25%] right-[15%] rotate-[-3]">🖥️</div>
+        <div className="absolute top-[60%] left-[50%] -translate-x-1/2">⚙️</div>
+        <div className="absolute bottom-[10%] left-[30%] rotate-3">⟐</div>
+        <div className="absolute top-[40%] right-[20%] rotate-[-5]">⌨️</div>
+        <div className="absolute bottom-[30%] left-[25%]">🖱️</div>
+        <div className="absolute top-[70%] right-[10%] rotate-2">⟐</div>
+        <div className="absolute top-[20%] left-[65%] rotate-[-4]">💾</div>
       </div>
     );
 
     // About Component with Circular Profile Picture
     const About = () => (
-      <section className="min-h-screen flex flex-col items-center justify-center p-8 animate-fadeIn relative z-10">
-        <div className="relative max-w-2xl text-center bg-gray-800 bg-opacity-70 backdrop-blur-sm p-8 rounded-lg shadow-xl shadow-yellow-500/20">
+      <section className="min-h-screen flex items-center justify-center p-8 animate-fadeIn relative z-10">
+        <div className="max-w-2xl text-center bg-gray-900 p-8 rounded-lg shadow-md">
           <img
             src="https://cdn.discordapp.com/attachments/1333377158265049099/1403474474900394196/IMG_20250808_015418_753.webp?ex=689afab6&is=6899a936&hm=4b5c50303c9a88f6ac889253c19c86d0fbe0e79ab7da0fbd92267f9b9fae6723&"
             alt="Profile Picture"
@@ -84,16 +84,16 @@
 
     // Experience Component
     const Experience = () => (
-      <section className="min-h-screen flex flex-col items-center justify-center p-8 animate-slideIn relative z-10">
-        <div className="relative max-w-2xl bg-gray-800 bg-opacity-70 backdrop-blur-sm p-8 rounded-lg shadow-xl shadow-yellow-500/20">
+      <section className="min-h-screen flex items-center justify-center p-8 animate-slideIn relative z-10">
+        <div className="max-w-2xl bg-gray-900 p-8 rounded-lg shadow-md">
           <h1 className="text-4xl font-bold mb-4 text-center text-yellow-300">Past Experiences</h1>
           <ul className="space-y-4">
-            <li className="bg-gray-900 p-4 rounded-lg shadow-md transform hover:scale-105 transition-transform duration-300">
+            <li className="bg-gray-800 p-4 rounded-lg shadow-md transform hover:scale-105 transition-transform duration-300">
               <h2 className="text-xl font-semibold">Owner @ GenThrust</h2>
               <p className="text-sm text-yellow-200">2025 - Present</p>
               <p>Developed the entire server from scratch which can now handle over 250 players at 20 TPS with highly optimised and unique features made to satisfy player needs.</p>
             </li>
-            <li className="bg-gray-900 p-4 rounded-lg shadow-md transform hover:scale-105 transition-transform duration-300">
+            <li className="bg-gray-800 p-4 rounded-lg shadow-md transform hover:scale-105 transition-transform duration-300">
               <h2 className="text-xl font-semibold">Developer @ Grindify</h2>
               <p className="text-sm text-yellow-200">2022 - 2024</p>
               <p>Created high quality skripts such as a Disky Discord Bot, Bounties and much more and improved skripts with optimisation by over 20%</p>
@@ -105,14 +105,14 @@
 
     // Skills Component
     const Skills = () => (
-      <section className="min-h-screen flex flex-col items-center justify-center p-8 animate-fadeIn relative z-10">
-        <div className="relative max-w-2xl text-center bg-gray-800 bg-opacity-70 backdrop-blur-sm p-8 rounded-lg shadow-xl shadow-yellow-500/20">
+      <section className="min-h-screen flex items-center justify-center p-8 animate-fadeIn relative z-10">
+        <div className="max-w-2xl text-center bg-gray-900 p-8 rounded-lg shadow-md">
           <h1 className="text-4xl font-bold mb-4 text-yellow-300">Skills</h1>
           <div className="grid grid-cols-2 gap-4">
             {['JavaScript', 'Skript', 'Python', 'Lua (SomeWhat)'].map((skill) => (
               <div
                 key={skill}
-                className="bg-gray-900 p-4 rounded-lg shadow-md transform hover:scale-110 transition-transform duration-300"
+                className="bg-gray-800 p-4 rounded-lg shadow-md transform hover:scale-110 transition-transform duration-300"
               >
                 {skill}
               </div>
@@ -124,8 +124,8 @@
 
     // Contact Component
     const Contact = () => (
-      <section className="min-h-screen flex flex-col items-center justify-center p-8 animate-slideIn relative z-10">
-        <div className="relative max-w-2xl text-center bg-gray-800 bg-opacity-70 backdrop-blur-sm p-8 rounded-lg shadow-xl shadow-yellow-500/20">
+      <section className="min-h-screen flex items-center justify-center p-8 animate-slideIn relative z-10">
+        <div className="max-w-2xl text-center bg-gray-900 p-8 rounded-lg shadow-md">
           <h1 className="text-4xl font-bold mb-4 text-yellow-300">Contact Me</h1>
           <p className="text-lg mb-4">
             Feel free to reach out via email or social media!
@@ -161,14 +161,14 @@
       return (
         <div className="relative">
           <NavBar setPage={setPage} />
-          <BackgroundElements />
+          <BackgroundIcons />
           <ViewCounter />
           {renderPage()}
         </div>
       );
     };
 
-    // Custom Tailwind Animations and Fallback for Backdrop Blur
+    // Custom Tailwind Animations
     const style = document.createElement('style');
     style.innerHTML = `
       @keyframes fadeIn {
@@ -184,12 +184,6 @@
       }
       .animate-slideIn {
         animation: slideIn 1s ease-in-out;
-      }
-      /* Fallback for browsers that don't support backdrop-blur */
-      @supports not (backdrop-filter: blur(4px)) {
-        .backdrop-blur-sm {
-          background-color: rgba(31, 41, 55, 0.8); /* Solid fallback for bg-gray-800 */
-        }
       }
     `;
     document.head.appendChild(style);

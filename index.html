@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Portfolio</title>
-  <!-- Favicon (using your provided image) -->
-  <link rel="icon" type="image/webp" href="https://cdn.discordapp.com/attachments/1333377158265049099/1403474474900394196/IMG_20250808_015418_753.webp?ex=689afab6&is=6899a936&hm=4b5c50303c9a88f6ac889253c19c86d0fbe0e79ab7da0fbd92267f9b9fae6723&">
+  <!-- Favicon (using your provided image with fallback) -->
+  <link rel="icon" type="image/webp" href="https://cdn.discordapp.com/attachments/1333377158265049099/1403474474900394196/IMG_20250808_015418_753.webp?ex=689afab6&is=6899a936&hm=4b5c50303c9a88f6ac889253c19c86d0fbe0e79ab7da0fbd92267f9b9fae6723&" onerror="this.src='https://via.placeholder.com/64?text=Profile'">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.24.7/babel.min.js"></script>
@@ -72,6 +72,7 @@
             src="https://cdn.discordapp.com/attachments/1333377158265049099/1403474474900394196/IMG_20250808_015418_753.webp?ex=689afab6&is=6899a936&hm=4b5c50303c9a88f6ac889253c19c86d0fbe0e79ab7da0fbd92267f9b9fae6723&"
             alt="Profile Picture"
             className="w-32 h-32 rounded-full mx-auto mb-4 shadow-lg transform hover:scale-110 transition-transform duration-300"
+            onError={(e) => { e.target.src = 'https://via.placeholder.com/150?text=Profile'; }}
           />
           <h1 className="text-4xl font-bold mb-4 text-yellow-300">About Me</h1>
           <p className="text-lg">
@@ -167,7 +168,7 @@
       );
     };
 
-    // Custom Tailwind Animations
+    // Custom Tailwind Animations and Fallback for Backdrop Blur
     const style = document.createElement('style');
     style.innerHTML = `
       @keyframes fadeIn {
@@ -183,6 +184,12 @@
       }
       .animate-slideIn {
         animation: slideIn 1s ease-in-out;
+      }
+      /* Fallback for browsers that don't support backdrop-blur */
+      @supports not (backdrop-filter: blur(4px)) {
+        .backdrop-blur-sm {
+          background-color: rgba(31, 41, 55, 0.8); /* Solid fallback for bg-gray-800 */
+        }
       }
     `;
     document.head.appendChild(style);

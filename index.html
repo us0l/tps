@@ -1,195 +1,213 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Portfolio</title>
-  <!-- Favicon (using your provided image with fallback) -->
-  <link rel="icon" type="image/webp" href="https://cdn.discordapp.com/attachments/1333377158265049099/1403474474900394196/IMG_20250808_015418_753.webp?ex=689afab6&is=6899a936&hm=4b5c50303c9a88f6ac889253c19c86d0fbe0e79ab7da0fbd92267f9b9fae6723&" onerror="this.src='https://via.placeholder.com/64?text=Profile'">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.24.7/babel.min.js"></script>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>tpsdll.xyz — About Me</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #111;
+      color: #fff;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 20px;
+      background: #181818;
+      border-bottom: 2px solid #333;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .logo {
+      font-size: 1.5em;
+      font-weight: bold;
+      color: #f0c420;
+    }
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    .nav-btn {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .nav-btn:hover {
+      color: #f0c420;
+    }
+    .view-counter {
+      font-size: 14px;
+      opacity: 0.8;
+    }
+    main {
+      padding: 20px;
+      max-width: 900px;
+      margin: auto;
+    }
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+    .banner img {
+      width: 100%;
+      max-height: 250px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+    .profile-card {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      background: #181818;
+      padding: 15px;
+      border-radius: 8px;
+      border: 2px solid #333;
+      width: fit-content;
+    }
+    .avatar img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 3px solid #f0c420;
+      object-fit: cover;
+    }
+    section {
+      margin-top: 30px;
+    }
+    #about img {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      border: 3px solid #f0c420;
+      object-fit: cover;
+    }
+    .discord-widget {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #181818;
+      padding: 10px;
+      border-radius: 8px;
+      border: 2px solid #333;
+    }
+    .discord-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      overflow: hidden;
+    }
+    .btn {
+      background: #f0c420;
+      color: #111;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .btn.ghost {
+      background: transparent;
+      border: 1px solid #f0c420;
+      color: #f0c420;
+    }
+  </style>
 </head>
-<body class="bg-black text-yellow-300 font-sans">
-  <div id="root"></div>
-  <script type="text/babel">
-    const { useState, useEffect } = React;
-
-    // Navigation Component
-    const NavBar = ({ setPage }) => (
-      <nav className="fixed top-0 w-full bg-black bg-opacity-80 p-4 shadow-md z-20">
-        <ul className="flex justify-center space-x-8">
-          {['About', 'Experience', 'Skills', 'Contact'].map((page) => (
-            <li key={page}>
-              <button
-                onClick={() => setPage(page.toLowerCase())}
-                className="text-yellow-300 hover:text-yellow-500 transition-colors duration-300 text-lg font-semibold transform hover:scale-110"
-              >
-                {page}
-              </button>
-            </li>
-          ))}
-        </ul>
-      </nav>
-    );
-
-    // View Counter Component
-    const ViewCounter = () => {
-      const [views, setViews] = useState(0);
-
-      useEffect(() => {
-        // Simulate fetching view count (no local storage in sandboxed environment)
-        setViews(Math.floor(Math.random() * 1000) + 1);
-      }, []);
-
-      return (
-        <div className="fixed bottom-4 right-4 bg-yellow-500 text-black px-4 py-2 rounded-full shadow-lg animate-pulse z-20">
-          Views: {views}
-        </div>
-      );
-    };
-
-    // Background Icons Component
-    const BackgroundIcons = () => (
-      <div className="fixed inset-0 z-0 opacity-10 text-yellow-300 pointer-events-none overflow-hidden text-2xl">
-        <div className="absolute top-[15%] left-[10%] rotate-6">💻</div>
-        <div className="absolute bottom-[25%] right-[15%] rotate-[-3]">🖥️</div>
-        <div className="absolute top-[60%] left-[50%] -translate-x-1/2">⚙️</div>
-        <div className="absolute bottom-[10%] left-[30%] rotate-3">⟐</div>
-        <div className="absolute top-[40%] right-[20%] rotate-[-5]">⌨️</div>
-        <div className="absolute bottom-[30%] left-[25%]">🖱️</div>
-        <div className="absolute top-[70%] right-[10%] rotate-2">⟐</div>
-        <div className="absolute top-[20%] left-[65%] rotate-[-4]">💾</div>
+<body>
+<header>
+  <div class="brand">
+    <div class="logo">TPS</div>
+    <div>
+      <div style="font-weight:800">tpsdll.xyz</div>
+      <small style="opacity:.6">Personal site</small>
+    </div>
+  </div>
+  <nav>
+    <button class="nav-btn" data-target="#about">About</button>
+    <button class="nav-btn" data-target="#hobbies">Hobbies</button>
+    <button class="nav-btn" data-target="#likes">Likes</button>
+    <button class="nav-btn" data-target="#contact">Contact</button>
+    <div class="view-counter" title="Site view counter">
+      👁️ <span id="viewCount">0</span>
+    </div>
+  </nav>
+</header>
+<main>
+  <div class="hero">
+    <div class="banner" id="bannerPreview">
+      <img id="bannerImg" src="https://cdn.discordapp.com/attachments/1333377158265049099/1404075036809363497/banner.png" alt="banner" />
+    </div>
+    <aside class="profile-card">
+      <div class="avatar float" id="avatarPreview">
+        <img id="avatarImg" src="https://cdn.discordapp.com/attachments/1333377158265049099/1403474474900394196/IMG_20250808_015418_753.webp" alt="avatar">
       </div>
-    );
+      <div>
+        <h1 id="displayName">tpsdll</h1>
+        <p class="lead">Developer & Creator of tpsdll.xyz</p>
+      </div>
+    </aside>
+  </div>
 
-    // About Component with Circular Profile Picture
-    const About = () => (
-      <section className="min-h-screen flex items-center justify-center p-8 animate-fadeIn relative z-10">
-        <div className="max-w-2xl text-center bg-gray-900 p-8 rounded-lg shadow-md">
-          <img
-            src="https://cdn.discordapp.com/attachments/1333377158265049099/1403474474900394196/IMG_20250808_015418_753.webp?ex=689afab6&is=6899a936&hm=4b5c50303c9a88f6ac889253c19c86d0fbe0e79ab7da0fbd92267f9b9fae6723&"
-            alt="Profile Picture"
-            className="w-32 h-32 rounded-full mx-auto mb-4 shadow-lg transform hover:scale-110 transition-transform duration-300"
-            onError={(e) => { e.target.src = 'https://via.placeholder.com/150?text=Profile'; }}
-          />
-          <h1 className="text-4xl font-bold mb-4 text-yellow-300">About Me</h1>
-          <p className="text-lg">
-            Hi, I'm Cam or most known as TPS, a passionate 18 year old Server Developer from the UK with endless motivation and high quality work for the cheapest of prices.
-          </p>
-        </div>
-      </section>
-    );
+  <!-- About Me Section -->
+  <section id="about">
+    <h2>About Me</h2>
+    <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
+      <img id="aboutPfp" src="https://cdn.discordapp.com/attachments/1333377158265049099/1403474474900394196/IMG_20250808_015418_753.webp?ex=689c4c36&is=689afab6&hm=18b71b9e4dbd62db5a2d673e3b0c48e343b764ad85155ddf9e661f5152e8d130" alt="About Me Profile Picture">
+      <p>
+        Hi, I’m tpsdll! Welcome to my site. I’m passionate about coding, creating, and exploring new tech.  
+        This is where you’ll find more about my hobbies, likes, and ways to contact me.
+      </p>
+    </div>
+  </section>
 
-    // Experience Component
-    const Experience = () => (
-      <section className="min-h-screen flex items-center justify-center p-8 animate-slideIn relative z-10">
-        <div className="max-w-2xl bg-gray-900 p-8 rounded-lg shadow-md">
-          <h1 className="text-4xl font-bold mb-4 text-center text-yellow-300">Past Experiences</h1>
-          <ul className="space-y-4">
-            <li className="bg-gray-800 p-4 rounded-lg shadow-md transform hover:scale-105 transition-transform duration-300">
-              <h2 className="text-xl font-semibold">Owner @ GenThrust</h2>
-              <p className="text-sm text-yellow-200">2025 - Present</p>
-              <p>Developed the entire server from scratch which can now handle over 250 players at 20 TPS with highly optimised and unique features made to satisfy player needs.</p>
-            </li>
-            <li className="bg-gray-800 p-4 rounded-lg shadow-md transform hover:scale-105 transition-transform duration-300">
-              <h2 className="text-xl font-semibold">Developer @ Grindify</h2>
-              <p className="text-sm text-yellow-200">2022 - 2024</p>
-              <p>Created high quality skripts such as a Disky Discord Bot, Bounties and much more and improved skripts with optimisation by over 20%</p>
-            </li>
-          </ul>
-        </div>
-      </section>
-    );
+  <!-- Contact Section -->
+  <section id="contact">
+    <h2>Contact</h2>
+    <small style="opacity:.7">Discord Widget Preview</small>
+    <div id="discordPreviewArea" class="discord-widget" style="margin-top:8px">
+      <div class="discord-avatar">
+        <img id="discordAvatar" src="https://cdn.discordapp.com/avatars/1196398244662628394/embed.png?size=128" alt="avatar" style="width:100%;height:100%;object-fit:cover">
+      </div>
+      <div>
+        <div id="discordName" style="font-weight:800">tpsdll</div>
+        <div id="discordId" style="opacity:.6;font-size:13px">ID: 1196398244662628394</div>
+      </div>
+    </div>
+  </section>
+</main>
 
-    // Skills Component
-    const Skills = () => (
-      <section className="min-h-screen flex items-center justify-center p-8 animate-fadeIn relative z-10">
-        <div className="max-w-2xl text-center bg-gray-900 p-8 rounded-lg shadow-md">
-          <h1 className="text-4xl font-bold mb-4 text-yellow-300">Skills</h1>
-          <div className="grid grid-cols-2 gap-4">
-            {['JavaScript', 'Skript', 'Python', 'Lua (SomeWhat)'].map((skill) => (
-              <div
-                key={skill}
-                className="bg-gray-800 p-4 rounded-lg shadow-md transform hover:scale-110 transition-transform duration-300"
-              >
-                {skill}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-    );
+<!-- Welcome Modal -->
+<div id="welcomeModal" class="welcome-modal" style="display:none;">
+  <div class="welcome-card">
+    <h3 class="welcome-title">Welcome to tpsdll.xyz!</h3>
+    <p class="welcome-sub">Glad you stopped by — click below to enter the site</p>
+    <div style="display:flex;gap:10px;justify-content:center">
+      <button class="btn" id="enterBtn">Enter Site</button>
+      <button class="btn ghost" id="dismissBtn">Close</button>
+    </div>
+  </div>
+</div>
 
-    // Contact Component
-    const Contact = () => (
-      <section className="min-h-screen flex items-center justify-center p-8 animate-slideIn relative z-10">
-        <div className="max-w-2xl text-center bg-gray-900 p-8 rounded-lg shadow-md">
-          <h1 className="text-4xl font-bold mb-4 text-yellow-300">Contact Me</h1>
-          <p className="text-lg mb-4">
-            Feel free to reach out via email or social media!
-          </p>
-          <div className="space-y-4">
-            <p>Email: tpsdll.business@gmail.com</p>
-            <p>Discord User: tps.dll</p>
-            <p>GitHub: github.com/tpsdll</p>
-          </div>
-        </div>
-      </section>
-    );
+<script>
+  // Real global view counter
+  fetch('https://api.countapi.xyz/hit/tpsdll.xyz/views')
+    .then(res => res.json())
+    .then(res => {
+      document.getElementById('viewCount').textContent = res.value;
+    });
 
-    // Main App Component
-    const App = () => {
-      const [page, setPage] = useState('about');
-
-      const renderPage = () => {
-        switch (page) {
-          case 'about':
-            return <About />;
-          case 'experience':
-            return <Experience />;
-          case 'skills':
-            return <Skills />;
-          case 'contact':
-            return <Contact />;
-          default:
-            return <About />;
-        }
-      };
-
-      return (
-        <div className="relative">
-          <NavBar setPage={setPage} />
-          <BackgroundIcons />
-          <ViewCounter />
-          {renderPage()}
-        </div>
-      );
-    };
-
-    // Custom Tailwind Animations
-    const style = document.createElement('style');
-    style.innerHTML = `
-      @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-      }
-      @keyframes slideIn {
-        from { transform: translateY(20px); opacity: 0; }
-        to { transform: translateY(0); opacity: 1; }
-      }
-      .animate-fadeIn {
-        animation: fadeIn 1s ease-in-out;
-      }
-      .animate-slideIn {
-        animation: slideIn 1s ease-in-out;
-      }
-    `;
-    document.head.appendChild(style);
-
-    // Render the App
-    ReactDOM.render(<App />, document.getElementById('root'));
-  </script>
+  // Welcome modal toggle
+  document.getElementById('enterBtn').onclick = () => document.getElementById('welcomeModal').style.display='none';
+  document.getElementById('dismissBtn').onclick = () => document.getElementById('welcomeModal').style.display='none';
+</script>
 </body>
 </html>

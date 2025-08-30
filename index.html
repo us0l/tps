@@ -3,127 +3,261 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Portfolio</title>
-  <!-- Font Awesome for social media icons -->
+  <title>us0l | Portfolio</title>
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
     body {
-      font-family: Arial, sans-serif;
-      margin: 0;
+      font-family: 'Poppins', sans-serif;
       line-height: 1.6;
-      background: url('https://cdn.discordapp.com/attachments/1410246641482465304/1411173330425479168/banner_1196398244662628394.gif?ex=68b3b114&is=68b25f94&hm=abe0481bc46ef3e4a7a78cbf6ffc6a2917a4eb9a98fa1b5383a29fbc4d54ba41&') no-repeat center center fixed;
+      background: url('https://cdn.discordapp.com/attachments/1410246641482465304/1411173330425479168/banner_1196398244662628394.gif') no-repeat center center fixed;
       background-size: cover;
       color: #fff;
     }
-    header {
-      background: rgba(0, 0, 0, 0.7);
-      padding: 2rem 1rem;
-      text-align: center;
-    }
-    header h1 {
-      margin: 0.5rem 0;
-      font-size: 2.5rem;
-      color: #1DB954; /* Spotify green */
-    }
-    header p {
-      margin: 0;
-      color: #d1d5db;
-    }
+
+    /* Navbar */
     nav {
-      margin-top: 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(10px);
+      padding: 1rem;
+      text-align: center;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
     }
     nav a {
       color: #1DB954;
-      margin: 0 10px;
+      margin: 0 15px;
       text-decoration: none;
-      font-weight: bold;
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+    nav a:hover { color: #1ed760; }
+
+    /* Header */
+    header {
+      padding: 4rem 1rem 2rem;
+      text-align: center;
     }
     .profile-pic {
-      width: 120px;
-      height: 120px;
+      width: 140px;
+      height: 140px;
       border-radius: 50%;
       border: 3px solid #1DB954;
-      margin: 0 auto 1rem;
       object-fit: cover;
-    }
-    section {
-      max-width: 700px;
-      margin: 2rem auto;
-      padding: 1rem;
-      background: rgba(0, 0, 0, 0.6);
-      border-radius: 10px;
-    }
-    h2 {
-      color: #1DB954;
-      margin-bottom: 0.5rem;
-      text-align: center;
-    }
-    .social-icons {
-      margin-top: 1rem;
-      text-align: center;
-    }
-    /* Brand-specific colors */
-    .social-icons .instagram { color: #E4405F; }
-    .social-icons .discord { color: #5865F2; }
-    .social-icons .spotify { color: #1DB954; }
-    .social-icons a {
-      font-size: 1.8rem;
-      margin: 0 10px;
+      margin-bottom: 1rem;
+      box-shadow: 0 0 20px rgba(29, 185, 84, 0.6);
       transition: transform 0.3s ease;
     }
-    .social-icons a:hover {
-      transform: scale(1.2);
+    .profile-pic:hover { transform: scale(1.05); }
+    header h1 { font-size: 2.8rem; font-weight: 700; color: #1DB954; }
+    header p { color: #ccc; font-size: 1.1rem; }
+
+    /* Sections */
+    section {
+      max-width: 750px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      box-shadow: 0 4px 30px rgba(0,0,0,0.3);
+      animation: fadeIn 1s ease forwards;
     }
+    h2 {
+      text-align: center;
+      color: #1DB954;
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    section p { text-align: center; font-size: 1.1rem; color: #e5e5e5; }
+
+    /* Social Icons */
+    .social-icons {
+      margin-top: 1.5rem;
+      text-align: center;
+    }
+    .social-icons a {
+      font-size: 2rem;
+      margin: 0 12px;
+      transition: transform 0.3s ease, color 0.3s ease;
+    }
+    .instagram { color: #E4405F; }
+    .discord { color: #5865F2; }
+    .spotify { color: #1DB954; }
+    .social-icons a:hover {
+      transform: translateY(-5px);
+      filter: brightness(1.2);
+    }
+
+    /* Discord Card */
+    .discord-card {
+      display: flex;
+      align-items: center;
+      background: rgba(20,20,20,0.85);
+      border-radius: 12px;
+      padding: 12px 15px;
+      max-width: 350px;
+      margin: 1.5rem auto 0;
+      color: white;
+      font-family: "Poppins", sans-serif;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    }
+    .discord-avatar {
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      margin-right: 12px;
+    }
+    .discord-info { display: flex; flex-direction: column; }
+    .discord-username { font-weight: 600; font-size: 16px; }
+    .discord-tag { font-size: 13px; color: #aaa; margin-left: 4px; }
+    .discord-status { margin-top: 4px; font-size: 12px; color: #1DB954; }
+    .discord-badges {
+      display: flex;
+      gap: 6px;
+      margin-top: 4px;
+    }
+    .discord-badges img { width: 20px; height: 20px; }
+
+    /* Footer */
     footer {
       text-align: center;
-      padding: 1rem;
-      background: rgba(0, 0, 0, 0.8);
-      margin-top: 2rem;
+      padding: 1.5rem;
+      background: rgba(0, 0, 0, 0.85);
+      border-top: 1px solid rgba(255,255,255,0.1);
+      margin-top: 3rem;
     }
-    footer p {
-      margin: 0.5rem 0;
-      color: #d1d5db;
+    footer p { color: #aaa; font-size: 0.9rem; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body>
+  <!-- Navbar -->
+  <nav>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <!-- Header -->
   <header>
     <img src="https://cdn.discordapp.com/avatars/1196398244662628394/a_76d45fa5e82142e0df2ee303164ff60d.gif?size=4096" alt="Profile Picture" class="profile-pic">
     <h1>Hi, I'm us0l</h1>
     <p>Web Developer • Designer • Sleeper</p>
-    <nav>
-      <a href="#about">About</a>
-      <a href="#contact">Contact</a>
-    </nav>
     <div class="social-icons">
-      <a href="https://instagram.com/crm5x" target="_blank"><i class="fab fa-instagram"></i></a>
-      <a href="https://discord.com/users/1196398244662628394" target="_blank"><i class="fab fa-discord"></i></a>
-      <a href="https://open.spotify.com/user/yourid" target="_blank"><i class="fab fa-spotify"></i></a>
+      <a href="https://instagram.com/crm5x" target="_blank" class="instagram"><i class="fab fa-instagram"></i></a>
+      <a href="https://discord.com/users/1196398244662628394" target="_blank" class="discord"><i class="fab fa-discord"></i></a>
+      <a href="https://open.spotify.com/user/yourid" target="_blank" class="spotify"><i class="fab fa-spotify"></i></a>
     </div>
   </header>
 
+  <!-- About -->
   <section id="about">
     <h2>About Me</h2>
-    <p>
-      Yo im Cam also known as us0l. I am a 18 year old.
-      Website and Discord Bot Developer based in England
-    </p>
+    <p>Yo, I'm Cam (aka us0l). I'm an 18-year-old Website and Discord Bot Developer based in England.</p>
+    
+    <!-- Live Discord Card -->
+    <div id="discord-card" class="discord-card">
+      <img id="discord-avatar" class="discord-avatar" src="" alt="Avatar">
+      <div class="discord-info">
+        <span>
+          <span id="discord-username" class="discord-username">Loading...</span>
+          <span id="discord-tag" class="discord-tag"></span>
+        </span>
+        <div id="discord-badges" class="discord-badges"></div>
+        <span id="discord-status" class="discord-status"></span>
+      </div>
+    </div>
   </section>
 
+  <!-- Contact -->
   <section id="contact">
     <h2>Contact</h2>
-    <p>Email: <a href="mailto:us0l.exe@gmail.com" style="color:#1DB954;">your@email.com</a></p>
+    <p>Email: <a href="mailto:us0l.exe@gmail.com" style="color:#1DB954;">us0l.exe@gmail.com</a></p>
     <p>LinkedIn: <a href="https://linkedin.com/in/yourprofile" target="_blank" style="color:#1DB954;">yourprofile</a></p>
-    <p>GitHub: <a href="https://github.com/us0l" target="_blank" style="color:#1DB954;">yourusername</a></p>
+    <p>GitHub: <a href="https://github.com/us0l" target="_blank" style="color:#1DB954;">us0l</a></p>
   </section>
 
+  <!-- Footer -->
   <footer>
-    <p>&copy; 2025 [Your Name]. All Rights Reserved.</p>
+    <p>&copy; 2025 us0l. All Rights Reserved.</p>
     <div class="social-icons">
-      <a href="https://instagram.com/crm5x" target="_blank"><i class="fab fa-instagram"></i></a>
-      <a href="https://discord.com/users/yourid" target="_blank"><i class="fab fa-discord"></i></a>
-      <a href="https://open.spotify.com/user/yourid" target="_blank"><i class="fab fa-spotify"></i></a>
+      <a href="https://instagram.com/crm5x" target="_blank" class="instagram"><i class="fab fa-instagram"></i></a>
+      <a href="https://discord.com/users/1196398244662628394" target="_blank" class="discord"><i class="fab fa-discord"></i></a>
+      <a href="https://open.spotify.com/user/yourid" target="_blank" class="spotify"><i class="fab fa-spotify"></i></a>
     </div>
   </footer>
+
+  <!-- Discord Presence Script -->
+  <script>
+  const userId = "1196398244662628394"; // Replace with your Discord ID
+
+  const badgeMap = {
+    "HypeSquadOnlineHouse1": "https://i.imgur.com/1Q9Z1Zm.png",
+    "HypeSquadOnlineHouse2": "https://i.imgur.com/qXzFglP.png",
+    "HypeSquadOnlineHouse3": "https://i.imgur.com/dZpQFqY.png",
+    "EarlySupporter": "https://i.imgur.com/qg6xjP7.png",
+    "Partner": "https://i.imgur.com/XqpCj5z.png",
+    "Staff": "https://i.imgur.com/Xu4oI9Z.png",
+    "BugHunterLevel1": "https://i.imgur.com/BW6zFzU.png",
+    "BugHunterLevel2": "https://i.imgur.com/ok3x6zF.png",
+    "ActiveDeveloper": "https://i.imgur.com/9pR9y6m.png",
+    "Nitro": "https://i.imgur.com/GbH1C2m.png"
+  };
+
+  async function loadDiscordPresence() {
+    try {
+      const res = await fetch(`https://api.lanyard.rest/v1/users/${userId}`);
+      const { data } = await res.json();
+
+      // Avatar
+      const avatar = `https://cdn.discordapp.com/avatars/${data.discord_user.id}/${data.discord_user.avatar}.png?size=128`;
+      document.getElementById("discord-avatar").src = avatar;
+
+      // Username + Tag
+      document.getElementById("discord-username").textContent = data.discord_user.username;
+      document.getElementById("discord-tag").textContent = `#${data.discord_user.discriminator}`;
+
+      // Status + color
+      let statusColor = "#1DB954";
+      if (data.discord_status === "dnd") statusColor = "#ed4245";
+      if (data.discord_status === "idle") statusColor = "#faa61a";
+      if (data.discord_status === "offline") statusColor = "#747f8d";
+      const statusEl = document.getElementById("discord-status");
+      statusEl.textContent = `Status: ${data.discord_status}`;
+      statusEl.style.color = statusColor;
+
+      // Badges
+      const badgesContainer = document.getElementById("discord-badges");
+      badgesContainer.innerHTML = "";
+      if (data.discord_user.public_flags_array) {
+        data.discord_user.public_flags_array.forEach(flag => {
+          if (badgeMap[flag]) {
+            const img = document.createElement("img");
+            img.src = badgeMap[flag];
+            img.alt = flag;
+            badgesContainer.appendChild(img);
+          }
+        });
+      }
+    } catch (err) {
+      console.error("Error loading Discord presence:", err);
+    }
+  }
+
+  // Load once + auto refresh every 30s
+  loadDiscordPresence();
+  setInterval(loadDiscordPresence, 30000);
+  </script>
 </body>
 </html>

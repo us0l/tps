@@ -11,83 +11,93 @@
       font-family: Arial, sans-serif;
       margin: 0;
       line-height: 1.6;
-      background: #f9fafb;
-      color: #333;
+      background: url('https://cdn.discordapp.com/attachments/1410246641482465304/1411173330425479168/banner_1196398244662628394.gif?ex=68b3b114&is=68b25f94&hm=abe0481bc46ef3e4a7a78cbf6ffc6a2917a4eb9a98fa1b5383a29fbc4d54ba41&') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
     }
     header {
-      background: #4f46e5;
-      color: white;
+      background: rgba(0, 0, 0, 0.7);
       padding: 2rem 1rem;
       text-align: center;
     }
     header h1 {
-      margin: 0;
+      margin: 0.5rem 0;
       font-size: 2.5rem;
+      color: #1DB954; /* Spotify green */
     }
     header p {
-      margin: 0.5rem 0 0;
+      margin: 0;
+      color: #d1d5db;
     }
     nav {
       margin-top: 1rem;
     }
     nav a {
-      color: white;
+      color: #1DB954;
       margin: 0 10px;
       text-decoration: none;
       font-weight: bold;
     }
+    .profile-pic {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 3px solid #1DB954;
+      margin: 0 auto 1rem;
+      object-fit: cover;
+    }
     section {
-      max-width: 900px;
+      max-width: 700px;
       margin: 2rem auto;
-      padding: 0 1rem;
+      padding: 1rem;
+      background: rgba(0, 0, 0, 0.6);
+      border-radius: 10px;
     }
     h2 {
-      color: #4f46e5;
+      color: #1DB954;
       margin-bottom: 0.5rem;
-    }
-    .projects {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1rem;
-    }
-    .card {
-      background: white;
-      border-radius: 8px;
-      padding: 1rem;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      text-align: center;
     }
     .social-icons {
       margin-top: 1rem;
+      text-align: center;
     }
+    /* Brand-specific colors */
+    .social-icons .instagram { color: #E4405F; }
+    .social-icons .discord { color: #5865F2; }
+    .social-icons .spotify { color: #1DB954; }
     .social-icons a {
-      color: white;
-      font-size: 1.5rem;
+      font-size: 1.8rem;
       margin: 0 10px;
-      transition: color 0.3s ease;
+      transition: transform 0.3s ease;
     }
     .social-icons a:hover {
-      color: #d1d5db;
+      transform: scale(1.2);
     }
     footer {
       text-align: center;
       padding: 1rem;
-      background: #f3f4f6;
+      background: rgba(0, 0, 0, 0.8);
       margin-top: 2rem;
+    }
+    footer p {
+      margin: 0.5rem 0;
+      color: #d1d5db;
     }
   </style>
 </head>
 <body>
   <header>
-    <h1>Hi, I'm [Your Name]</h1>
-    <p>Web Developer • Designer • Creator</p>
+    <img src="https://cdn.discordapp.com/avatars/1196398244662628394/a_76d45fa5e82142e0df2ee303164ff60d.gif?size=4096" alt="Profile Picture" class="profile-pic">
+    <h1>Hi, I'm us0l</h1>
+    <p>Web Developer • Designer • Sleeper</p>
     <nav>
       <a href="#about">About</a>
-      <a href="#projects">Projects</a>
       <a href="#contact">Contact</a>
     </nav>
     <div class="social-icons">
-      <a href="https://instagram.com/yourprofile" target="_blank"><i class="fab fa-instagram"></i></a>
-      <a href="https://discord.com/users/yourid" target="_blank"><i class="fab fa-discord"></i></a>
+      <a href="https://instagram.com/crm5x" target="_blank"><i class="fab fa-instagram"></i></a>
+      <a href="https://discord.com/users/1196398244662628394" target="_blank"><i class="fab fa-discord"></i></a>
       <a href="https://open.spotify.com/user/yourid" target="_blank"><i class="fab fa-spotify"></i></a>
     </div>
   </header>
@@ -95,38 +105,25 @@
   <section id="about">
     <h2>About Me</h2>
     <p>
-      I'm passionate about building beautiful and functional web experiences.
-      I enjoy working with modern technologies and continuously learning new skills.
+      Yo im Cam also known as us0l. I am a 18 year old.
+      Website and Discord Bot Developer based in England
     </p>
-  </section>
-
-  <section id="projects">
-    <h2>Projects</h2>
-    <div class="projects">
-      <div class="card">
-        <h3>Project One</h3>
-        <p>A short description of what this project does.</p>
-      </div>
-      <div class="card">
-        <h3>Project Two</h3>
-        <p>A short description of another project.</p>
-      </div>
-      <div class="card">
-        <h3>Project Three</h3>
-        <p>A short description of another cool project.</p>
-      </div>
-    </div>
   </section>
 
   <section id="contact">
     <h2>Contact</h2>
-    <p>Email: <a href="mailto:your@email.com">your@email.com</a></p>
-    <p>LinkedIn: <a href="https://linkedin.com/in/yourprofile" target="_blank">yourprofile</a></p>
-    <p>GitHub: <a href="https://github.com/yourusername" target="_blank">yourusername</a></p>
+    <p>Email: <a href="mailto:us0l.exe@gmail.com" style="color:#1DB954;">your@email.com</a></p>
+    <p>LinkedIn: <a href="https://linkedin.com/in/yourprofile" target="_blank" style="color:#1DB954;">yourprofile</a></p>
+    <p>GitHub: <a href="https://github.com/us0l" target="_blank" style="color:#1DB954;">yourusername</a></p>
   </section>
 
   <footer>
     <p>&copy; 2025 [Your Name]. All Rights Reserved.</p>
+    <div class="social-icons">
+      <a href="https://instagram.com/crm5x" target="_blank"><i class="fab fa-instagram"></i></a>
+      <a href="https://discord.com/users/yourid" target="_blank"><i class="fab fa-discord"></i></a>
+      <a href="https://open.spotify.com/user/yourid" target="_blank"><i class="fab fa-spotify"></i></a>
+    </div>
   </footer>
 </body>
 </html>

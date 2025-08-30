@@ -156,69 +156,45 @@
     <p>&copy; 2025 us0l. All Rights Reserved.</p>
   </footer>
   <script>
-    const userId = "1196398244662628394"; // Replace with your ID
-
-    const badgeMap = {
-      "HypeSquadOnlineHouse1": "https://i.imgur.com/1Q9Z1Zm.png",
-      "HypeSquadOnlineHouse2": "https://i.imgur.com/qXzFglP.png",
-      "HypeSquadOnlineHouse3": "https://i.imgur.com/dZpQFqY.png",
-      "EarlySupporter": "https://i.imgur.com/qg6xjP7.png",
-      "Partner": "https://i.imgur.com/XqpCj5z.png",
-      "Staff": "https://i.imgur.com/Xu4oI9Z.png",
-      "BugHunterLevel1": "https://i.imgur.com/BW6zFzU.png",
-      "BugHunterLevel2": "https://i.imgur.com/ok3x6zF.png",
-      "ActiveDeveloper": "https://i.imgur.com/9pR9y6m.png",
-      "Nitro": "https://i.imgur.com/GbH1C2m.png"
-    };
-
-    function parseFlags(flags) {
-      const mapping = {
-        1: "Staff",
-        2: "Partner",
-        4: "HypeSquadEvents",
-        8: "BugHunterLevel1",
-        64: "HypeSquadOnlineHouse1",
-        128: "HypeSquadOnlineHouse2",
-        256: "HypeSquadOnlineHouse3",
-        512: "EarlySupporter",
-        16384: "BugHunterLevel2",
-        131072: "ActiveDeveloper"
-      };
-      return Object.keys(mapping).filter(bit => (flags & bit) !== 0).map(bit => mapping[bit]);
-    }
+    const userId = "1196398244662628394"; // Replace with your real Discord ID
 
     async function loadDiscordPresence() {
       try {
         const res = await fetch(`https://api.lanyard.rest/v1/users/${userId}`);
-        const { data } = await res.json();
+        const json = await res.json();
+        console.log("Lanyard response:", json);
 
-        document.getElementById("discord-avatar").src = `https://cdn.discordapp.com/avatars/${data.discord_user.id}/${data.discord_user.avatar}.png?size=128`;
+        const data = json.data;
+        if (!data) {
+          document.getElementById("discord-status").textContent = "⚠️ Not connected to Lanyard";
+          return;
+        }
+
+        // Avatar
+        document.getElementById("discord-avatar").src =
+          `https://cdn.discordapp.com/avatars/${data.discord_user.id}/${data.discord_user.avatar}.png?size=128`;
+
+        // Username + Tag
         document.getElementById("discord-username").textContent = data.discord_user.username;
         document.getElementById("discord-tag").textContent = `#${data.discord_user.discriminator}`;
 
-        let statusColor = "#1DB954";
-        if (data.discord_status === "dnd") statusColor = "#ed4245";
-        if (data.discord_status === "idle") statusColor = "#faa61a";
-        if (data.discord_status === "offline") statusColor = "#747f8d";
+        // Status
         const statusEl = document.getElementById("discord-status");
-        statusEl.textContent = `Status: ${data.discord_status}`;
+        const status = data.discord_status || "offline";
+        statusEl.textContent = `Status: ${status}`;
+
+        let statusColor = "#1DB954";
+        if (status === "dnd") statusColor = "#ed4245";
+        if (status === "idle") statusColor = "#faa61a";
+        if (status === "offline") statusColor = "#747f8d";
         statusEl.style.color = statusColor;
 
-        const badgesContainer = document.getElementById("discord-badges");
-        badgesContainer.innerHTML = "";
-        let flagsArray = data.discord_user.public_flags_array || parseFlags(data.discord_user.public_flags);
-        flagsArray.forEach(flag => {
-          if (badgeMap[flag]) {
-            const img = document.createElement("img");
-            img.src = badgeMap[flag];
-            img.alt = flag;
-            badgesContainer.appendChild(img);
-          }
-        });
       } catch (err) {
-        console.error("Error:", err);
+        console.error("Error fetching Discord presence:", err);
+        document.getElementById("discord-status").textContent = "⚠️ Error loading status";
       }
     }
+
     loadDiscordPresence();
     setInterval(loadDiscordPresence, 30000);
   </script>

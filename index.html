@@ -96,107 +96,150 @@
       margin: 1.5rem auto 0;
       box-shadow: 0 4px 20px rgba(0,0,0,0.5);
     }
-    .discord-avatar {
-      width: 55px; height: 55px;
-      border-radius: 50%;
-      margin-right: 12px;
-    }
-    .discord-info { display: flex; flex-direction: column; }
-    .discord-username { font-weight: 600; font-size: 16px; }
-    .discord-tag { font-size: 13px; color: #aaa; margin-left: 4px; }
-    .discord-status { margin-top: 4px; font-size: 12px; }
-    .discord-badges { display: flex; gap: 6px; margin-top: 4px; }
-    .discord-badges img { width: 20px; height: 20px; }
-    footer {
-      text-align: center;
-      padding: 1.5rem;
-      background: rgba(0, 0, 0, 0.85);
-      margin-top: 3rem;
-    }
-    footer p { color: #aaa; font-size: 0.9rem; }
-  </style>
-</head>
-<body>
-  <nav>
-    <a href="#about">About</a>
-    <a href="#contact">Contact</a>
-  </nav>
-  <header>
-    <img src="https://cdn.discordapp.com/avatars/1196398244662628394/a_76d45fa5e82142e0df2ee303164ff60d.gif?size=4096" alt="Profile Picture" class="profile-pic">
-    <h1>Hi, I'm us0l</h1>
-    <p>Web Developer • Designer • Sleeper</p>
-    <div class="social-icons">
-      <a href="https://instagram.com/crm5x" target="_blank" class="instagram"><i class="fab fa-instagram"></i></a>
-      <a href="https://discord.com/users/1196398244662628394" target="_blank" class="discord"><i class="fab fa-discord"></i></a>
-      <a href="https://open.spotify.com/user/yourid" target="_blank" class="spotify"><i class="fab fa-spotify"></i></a>
+<div class="discord-card">
+  <div class="discord-left">
+    <img id="discord-avatar" class="discord-avatar" src="" alt="Avatar">
+    <span id="status-indicator" class="status-indicator"></span>
+  </div>
+  <div class="discord-right">
+    <div class="discord-username-tag">
+      <span id="discord-username" class="discord-username">Loading</span>
+      <span id="discord-tag" class="discord-tag">#0000</span>
     </div>
-  </header>
-  <section id="about">
-    <h2>About Me</h2>
-    <p>Yo, I'm Cam (aka us0l). I'm an 18-year-old Website and Discord Bot Developer based in England.</p>
-    <div id="discord-card" class="discord-card">
-      <img id="discord-avatar" class="discord-avatar" src="" alt="Avatar">
-      <div class="discord-info">
-        <span>
-          <span id="discord-username" class="discord-username">Loading...</span>
-          <span id="discord-tag" class="discord-tag"></span>
-        </span>
-        <div id="discord-badges" class="discord-badges"></div>
-        <span id="discord-status" class="discord-status">Loading...</span>
-      </div>
-    </div>
-  </section>
-  <section id="contact">
-    <h2>Contact</h2>
-    <p>Email: <a href="mailto:us0l.exe@gmail.com" style="color:#1DB954;">us0l.exe@gmail.com</a></p>
-    <p>LinkedIn: <a href="https://linkedin.com/in/yourprofile" target="_blank" style="color:#1DB954;">yourprofile</a></p>
-    <p>GitHub: <a href="https://github.com/us0l" target="_blank" style="color:#1DB954;">us0l</a></p>
-  </section>
-  <footer>
-    <p>&copy; 2025 us0l. All Rights Reserved.</p>
-  </footer>
-  <script>
-    const userId = "1196398244662628394"; // Replace with your real Discord ID
+    <div id="discord-guildtag" class="discord-guildtag"></div>
+    <div id="discord-badges" class="discord-badges"></div>
+    <div id="discord-status-text" class="discord-status">Loading...</div>
+  </div>
+</div>
 
-    async function loadDiscordPresence() {
-      try {
-        const res = await fetch(`https://api.lanyard.rest/v1/users/${userId}`);
-        const json = await res.json();
-        console.log("Lanyard response:", json);
+<style>
+.discord-card {
+  display: flex;
+  align-items: center;
+  background: rgba(0,0,0,0.7);
+  border-radius: 12px;
+  padding: 15px;
+  max-width: 420px;
+  margin: 1.5rem auto;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+.discord-left {
+  position: relative;
+}
+.discord-avatar {
+  width: 72px; height: 72px;
+  border-radius: 50%;
+}
+.status-indicator {
+  position: absolute;
+  bottom: 6px; right: 6px;
+  width: 18px; height: 18px;
+  border: 3px solid #2c2f33;
+  border-radius: 50%;
+  background: gray;
+}
+.discord-right {
+  margin-left: 15px;
+  display: flex;
+  flex-direction: column;
+}
+.discord-username-tag {
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  font-weight: 600;
+}
+.discord-username { color: #fff; }
+.discord-tag { color: #aaa; margin-left: 4px; font-weight: 400; }
+.discord-guildtag {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1DB954;
+  margin: 4px 0;
+}
+.discord-badges {
+  display: flex;
+  gap: 6px;
+  margin: 6px 0;
+}
+.discord-badges img { width: 20px; height: 20px; }
+.discord-status {
+  font-size: 13px;
+  color: #ccc;
+}
+</style>
 
-        const data = json.data;
-        if (!data) {
-          document.getElementById("discord-status").textContent = "⚠️ Not connected to Lanyard";
-          return;
+<script>
+const userId = "1196398244662628394"; // Replace with your ID
+
+const badgeMap = {
+  "HypeSquadOnlineHouse1": "https://i.imgur.com/1Q9Z1Zm.png",
+  "HypeSquadOnlineHouse2": "https://i.imgur.com/qXzFglP.png",
+  "HypeSquadOnlineHouse3": "https://i.imgur.com/dZpQFqY.png",
+  "EarlySupporter": "https://i.imgur.com/qg6xjP7.png",
+  "Partner": "https://i.imgur.com/XqpCj5z.png",
+  "Staff": "https://i.imgur.com/Xu4oI9Z.png",
+  "BugHunterLevel1": "https://i.imgur.com/BW6zFzU.png",
+  "BugHunterLevel2": "https://i.imgur.com/ok3x6zF.png",
+  "ActiveDeveloper": "https://i.imgur.com/9pR9y6m.png",
+  "Nitro": "https://i.imgur.com/GbH1C2m.png"
+};
+
+async function loadDiscordPresence() {
+  try {
+    const res = await fetch(`https://api.lanyard.rest/v1/users/${userId}`);
+    const json = await res.json();
+    const data = json.data;
+    if (!data) return;
+
+    // Avatar
+    document.getElementById("discord-avatar").src =
+      `https://cdn.discordapp.com/avatars/${data.discord_user.id}/${data.discord_user.avatar}.png?size=128`;
+
+    // Username + Tag
+    document.getElementById("discord-username").textContent = data.discord_user.username;
+    document.getElementById("discord-tag").textContent = `#${data.discord_user.discriminator}`;
+
+    // Guild Tag (equipped tag)
+    if (data.discord_user.global_name) {
+      document.getElementById("discord-guildtag").textContent = data.discord_user.global_name;
+    } else {
+      document.getElementById("discord-guildtag").textContent = "";
+    }
+
+    // Status text + indicator
+    const status = data.discord_status;
+    const statusText = document.getElementById("discord-status-text");
+    const statusDot = document.getElementById("status-indicator");
+
+    statusText.textContent = `Status: ${status}`;
+    if (status === "online") { statusDot.style.background = "#23a55a"; }
+    if (status === "idle") { statusDot.style.background = "#f0b232"; }
+    if (status === "dnd") { statusDot.style.background = "#f23f43"; }
+    if (status === "offline") { statusDot.style.background = "#747f8d"; }
+
+    // Badges
+    const badgesContainer = document.getElementById("discord-badges");
+    badgesContainer.innerHTML = "";
+    if (data.discord_user.public_flags_array) {
+      data.discord_user.public_flags_array.forEach(flag => {
+        if (badgeMap[flag]) {
+          const img = document.createElement("img");
+          img.src = badgeMap[flag];
+          img.alt = flag;
+          badgesContainer.appendChild(img);
         }
-
-        // Avatar
-        document.getElementById("discord-avatar").src =
-          `https://cdn.discordapp.com/avatars/${data.discord_user.id}/${data.discord_user.avatar}.png?size=128`;
-
-        // Username + Tag
-        document.getElementById("discord-username").textContent = data.discord_user.username;
-        document.getElementById("discord-tag").textContent = `#${data.discord_user.discriminator}`;
-
-        // Status
-        const statusEl = document.getElementById("discord-status");
-        const status = data.discord_status || "offline";
-        statusEl.textContent = `Status: ${status}`;
-
-        let statusColor = "#1DB954";
-        if (status === "dnd") statusColor = "#ed4245";
-        if (status === "idle") statusColor = "#faa61a";
-        if (status === "offline") statusColor = "#747f8d";
-        statusEl.style.color = statusColor;
-
-      } catch (err) {
-        console.error("Error fetching Discord presence:", err);
-        document.getElementById("discord-status").textContent = "⚠️ Error loading status";
-      }
+      });
     }
 
-    loadDiscordPresence();
-    setInterval(loadDiscordPresence, 30000);
-  </script>
+  } catch (err) {
+    console.error("Error loading presence", err);
+  }
+}
+
+loadDiscordPresence();
+setInterval(loadDiscordPresence, 30000);
+</script>
+
 </body>
 </html>

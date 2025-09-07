@@ -37,6 +37,27 @@
             50% { transform: translateY(-20px) rotate(180deg); }
         }
 
+        /* Custom Background and Overlay */
+        .custom-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+        }
+
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: -1;
+        }
+
         /* Profile Section */
         .profile-container {
             text-align: center;
@@ -55,20 +76,28 @@
             animation: profileGlow 2s ease-in-out infinite alternate;
         }
 
-        .profile-pic::before {
-            content: "👤";
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 4rem;
-            background: #1a1a2e;
+        .profile-pic-inner {
             width: calc(100% - 8px);
             height: calc(100% - 8px);
             border-radius: 50%;
+            background: #1a1a2e;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 4rem;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .profile-pic-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .profile-pic-placeholder {
+            font-size: 4rem;
         }
 
         @keyframes profileGlow {
@@ -88,6 +117,157 @@
             font-size: 1.1rem;
             color: rgba(255, 255, 255, 0.9);
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Customization Panel */
+        .customize-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .customize-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .customize-panel {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 350px;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(20px);
+            padding: 2rem;
+            transition: right 0.3s ease;
+            z-index: 999;
+            overflow-y: auto;
+            border-left: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .customize-panel.open {
+            right: 0;
+        }
+
+        .panel-title {
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .panel-section {
+            margin-bottom: 2rem;
+        }
+
+        .panel-section h3 {
+            color: white;
+            font-size: 1.1rem;
+            margin-bottom: 0.8rem;
+            opacity: 0.9;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+
+        .file-input {
+            position: absolute;
+            left: -9999px;
+        }
+
+        .file-input-button {
+            display: block;
+            width: 100%;
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            text-align: center;
+            border-radius: 10px;
+            cursor: pointer;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .file-input-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .preview-container {
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        .preview-img {
+            max-width: 100px;
+            max-height: 100px;
+            border-radius: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .close-panel {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .close-panel:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(90deg);
+        }
+
+        .reset-btn {
+            width: 100%;
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .reset-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
         }
 
         /* Social Links Container */
@@ -205,6 +385,10 @@
             .social-icon {
                 font-size: 1.8rem;
             }
+
+            .customize-panel {
+                width: 300px;
+            }
         }
 
         /* Footer */
@@ -246,13 +430,52 @@
     </style>
 </head>
 <body>
+    <!-- Custom Background and Overlay -->
+    <img id="custom-background" class="custom-bg" src="https://cdn.discordapp.com/attachments/1333377158265049099/1414111455959187496/yh.gif?ex=68be616c&is=68bd0fec&hm=ed6be70daaaf23f903824a8ec47b5efa39afc7f690fa938c1ba6c70b33d38444&" />
+    <div class="bg-overlay" id="bg-overlay"></div>
+    
+    <!-- Customize Button -->
+    <button class="customize-btn" onclick="toggleCustomizePanel()">🎨 Customize</button>
+    
+    <!-- Customization Panel -->
+    <div class="customize-panel" id="customize-panel">
+        <button class="close-panel" onclick="toggleCustomizePanel()">×</button>
+        <h2 class="panel-title">Customize Your Hub</h2>
+        
+        <div class="panel-section">
+            <h3>Profile Picture</h3>
+            <div class="file-input-wrapper">
+                <input type="file" id="profile-upload" class="file-input" accept="image/*" onchange="handleProfileUpload(event)">
+                <label for="profile-upload" class="file-input-button">📷 Upload Profile Picture</label>
+            </div>
+            <div class="preview-container" id="profile-preview"></div>
+        </div>
+        
+        <div class="panel-section">
+            <h3>Background</h3>
+            <div class="file-input-wrapper">
+                <input type="file" id="background-upload" class="file-input" accept="image/*,image/gif" onchange="handleBackgroundUpload(event)">
+                <label for="background-upload" class="file-input-button">🖼️ Upload Background (PNG/JPG/GIF)</label>
+            </div>
+            <div class="preview-container" id="background-preview"></div>
+        </div>
+        
+        <div class="panel-section">
+            <button class="reset-btn" onclick="resetCustomizations()">🔄 Reset to Default</button>
+        </div>
+    </div>
+
     <!-- Background Particles -->
     <div class="particles-container"></div>
 
     <!-- Profile Section -->
     <div class="profile-container">
-        <div class="profile-pic"></div>
-        <h1 class="profile-name">Your Name</h1>
+        <div class="profile-pic">
+            <div class="profile-pic-inner" id="profile-pic-inner">
+                <img src="https://cdn.discordapp.com/attachments/1333377158265049099/1414111455506337924/ff.jpg?ex=68be616b&is=68bd0feb&hm=deb180a74995382023fb51af762415057ce3d2b8eccd23d0bfd898745bf05dfa&" alt="Profile" class="profile-pic-img">
+            </div>
+        </div>
+        <h1 class="profile-name">us0l</h1>
         <p class="profile-bio">Connect with me on all platforms ✨</p>
     </div>
 
@@ -334,7 +557,6 @@
         document.getElementById('discord-link').addEventListener('click', function(e) {
             e.preventDefault();
             
-            // Replace with your actual Discord username
             const discordUsername = 'us0l';
             
             // Try to copy to clipboard
@@ -388,7 +610,7 @@
             }
         }
 
-        // Add click effects
+        // Add click effects and ripple animations
         document.querySelectorAll('.social-link').forEach(link => {
             link.addEventListener('mouseenter', function() {
                 this.style.transform = 'translateY(-5px) scale(1.02)';
@@ -451,7 +673,6 @@
                     const preview = document.getElementById('profile-preview');
                     preview.innerHTML = `<img src="${e.target.result}" alt="Preview" class="preview-img">`;
                     
-                    // Save to localStorage (but we're not using it in artifacts)
                     showNotification('Profile picture updated! 🎉');
                 };
                 reader.readAsDataURL(file);
@@ -464,11 +685,8 @@
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     const bgElement = document.getElementById('custom-background');
-                    const overlay = document.getElementById('bg-overlay');
                     
                     bgElement.src = e.target.result;
-                    bgElement.style.display = 'block';
-                    overlay.style.background = 'rgba(0, 0, 0, 0.4)'; // Darken overlay for better text visibility
                     
                     // Show preview
                     const preview = document.getElementById('background-preview');
@@ -481,15 +699,13 @@
         }
 
         function resetCustomizations() {
-            // Reset profile picture
+            // Reset profile picture to default
             const profileInner = document.getElementById('profile-pic-inner');
-            profileInner.innerHTML = '<div class="profile-pic-placeholder">👤</div>';
+            profileInner.innerHTML = '<img src="https://cdn.discordapp.com/attachments/1333377158265049099/1414111455506337924/ff.jpg?ex=68be616b&is=68bd0feb&hm=deb180a74995382023fb51af762415057ce3d2b8eccd23d0bfd898745bf05dfa&" alt="Profile" class="profile-pic-img">';
             
-            // Reset background
+            // Reset background to default
             const bgElement = document.getElementById('custom-background');
-            const overlay = document.getElementById('bg-overlay');
-            bgElement.style.display = 'none';
-            overlay.style.background = 'rgba(0, 0, 0, 0.3)';
+            bgElement.src = 'https://cdn.discordapp.com/attachments/1333377158265049099/1414111455959187496/yh.gif?ex=68be616c&is=68bd0fec&hm=ed6be70daaaf23f903824a8ec47b5efa39afc7f690fa938c1ba6c70b33d38444&';
             
             // Clear previews
             document.getElementById('profile-preview').innerHTML = '';
@@ -513,18 +729,6 @@
                 panel.classList.remove('open');
             }
         });
-
-        // Party mode animation
-        const partyStyle = document.createElement('style');
-        partyStyle.textContent = `
-            @keyframes partyMode {
-                0%, 100% { filter: hue-rotate(0deg) brightness(1); }
-                25% { filter: hue-rotate(90deg) brightness(1.2); }
-                50% { filter: hue-rotate(180deg) brightness(0.8); }
-                75% { filter: hue-rotate(270deg) brightness(1.2); }
-            }
-        `;
-        document.head.appendChild(partyStyle);
     </script>
 </body>
 </html>

@@ -1,245 +1,530 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>us0l | Portfolio</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: 'Poppins', sans-serif;
-      line-height: 1.6;
-      background: url("https://cdn.discordapp.com/attachments/1410246641482465304/1411173330425479168/banner_1196398244662628394.gif?ex=68b3b114&is=68b25f94&hm=abe0481bc46ef3e4a7a78cbf6ffc6a2917a4eb9a98fa1b5383a29fbc4d54ba41&") no-repeat center center fixed;
-      background-size: cover;
-      color: #fff;
-      position: relative;
-    }
-    body::before {
-      content: "";
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.85));
-      z-index: -1;
-    }
-    nav {
-      position: sticky;
-      top: 0;
-      background: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(8px);
-      padding: 1rem;
-      text-align: center;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-    }
-    nav a {
-      color: #1DB954;
-      margin: 0 15px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: color 0.3s;
-    }
-    nav a:hover { color: #1ed760; }
-    header {
-      padding: 4rem 1rem 2rem;
-      text-align: center;
-    }
-    .profile-pic {
-      width: 140px; height: 140px;
-      border-radius: 50%;
-      border: 3px solid #1DB954;
-      object-fit: cover;
-      margin-bottom: 1rem;
-      box-shadow: 0 0 20px rgba(29,185,84,0.6);
-      transition: transform 0.3s;
-    }
-    .profile-pic:hover { transform: scale(1.05); }
-    header h1 { font-size: 2.8rem; font-weight: 700; color: #1DB954; }
-    header p { color: #ccc; font-size: 1.1rem; }
-    section {
-      max-width: 750px;
-      margin: 2rem auto;
-      padding: 2rem;
-      background: rgba(20,20,20,0.6);
-      backdrop-filter: blur(15px);
-      border-radius: 15px;
-      box-shadow: 0 4px 30px rgba(0,0,0,0.4);
-    }
-    h2 {
-      text-align: center;
-      color: #1DB954;
-      font-size: 2rem;
-      margin-bottom: 1rem;
-    }
-    section p { text-align: center; font-size: 1.1rem; color: #e5e5e5; }
-    .social-icons {
-      margin-top: 1.5rem;
-      text-align: center;
-    }
-    .social-icons a {
-      font-size: 2rem;
-      margin: 0 12px;
-      transition: transform 0.3s, color 0.3s;
-    }
-    .instagram { color: #E4405F; }
-    .discord { color: #5865F2; }
-    .spotify { color: #1DB954; }
-    .social-icons a:hover { transform: translateY(-5px); filter: brightness(1.2); }
-    .discord-card {
-      display: flex;
-      align-items: center;
-      background: rgba(0,0,0,0.7);
-      border-radius: 12px;
-      padding: 15px;
-      max-width: 350px;
-      margin: 1.5rem auto 0;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-    }
-<div class="discord-card">
-  <div class="discord-left">
-    <img id="discord-avatar" class="discord-avatar" src="" alt="Avatar">
-    <span id="status-indicator" class="status-indicator"></span>
-  </div>
-  <div class="discord-right">
-    <div class="discord-username-tag">
-      <span id="discord-username" class="discord-username">Loading</span>
-      <span id="discord-tag" class="discord-tag">#0000</span>
-    </div>
-    <div id="discord-guildtag" class="discord-guildtag"></div>
-    <div id="discord-badges" class="discord-badges"></div>
-    <div id="discord-status-text" class="discord-status">Loading...</div>
-  </div>
-</div>
-
-<style>
-.discord-card {
-  display: flex;
-  align-items: center;
-  background: rgba(0,0,0,0.7);
-  border-radius: 12px;
-  padding: 15px;
-  max-width: 420px;
-  margin: 1.5rem auto;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-}
-.discord-left {
-  position: relative;
-}
-.discord-avatar {
-  width: 72px; height: 72px;
-  border-radius: 50%;
-}
-.status-indicator {
-  position: absolute;
-  bottom: 6px; right: 6px;
-  width: 18px; height: 18px;
-  border: 3px solid #2c2f33;
-  border-radius: 50%;
-  background: gray;
-}
-.discord-right {
-  margin-left: 15px;
-  display: flex;
-  flex-direction: column;
-}
-.discord-username-tag {
-  display: flex;
-  align-items: center;
-  font-size: 18px;
-  font-weight: 600;
-}
-.discord-username { color: #fff; }
-.discord-tag { color: #aaa; margin-left: 4px; font-weight: 400; }
-.discord-guildtag {
-  font-size: 14px;
-  font-weight: 500;
-  color: #1DB954;
-  margin: 4px 0;
-}
-.discord-badges {
-  display: flex;
-  gap: 6px;
-  margin: 6px 0;
-}
-.discord-badges img { width: 20px; height: 20px; }
-.discord-status {
-  font-size: 13px;
-  color: #ccc;
-}
-</style>
-
-<script>
-const userId = "1196398244662628394"; // Replace with your ID
-
-const badgeMap = {
-  "HypeSquadOnlineHouse1": "https://i.imgur.com/1Q9Z1Zm.png",
-  "HypeSquadOnlineHouse2": "https://i.imgur.com/qXzFglP.png",
-  "HypeSquadOnlineHouse3": "https://i.imgur.com/dZpQFqY.png",
-  "EarlySupporter": "https://i.imgur.com/qg6xjP7.png",
-  "Partner": "https://i.imgur.com/XqpCj5z.png",
-  "Staff": "https://i.imgur.com/Xu4oI9Z.png",
-  "BugHunterLevel1": "https://i.imgur.com/BW6zFzU.png",
-  "BugHunterLevel2": "https://i.imgur.com/ok3x6zF.png",
-  "ActiveDeveloper": "https://i.imgur.com/9pR9y6m.png",
-  "Nitro": "https://i.imgur.com/GbH1C2m.png"
-};
-
-async function loadDiscordPresence() {
-  try {
-    const res = await fetch(`https://api.lanyard.rest/v1/users/${userId}`);
-    const json = await res.json();
-    const data = json.data;
-    if (!data) return;
-
-    // Avatar
-    document.getElementById("discord-avatar").src =
-      `https://cdn.discordapp.com/avatars/${data.discord_user.id}/${data.discord_user.avatar}.png?size=128`;
-
-    // Username + Tag
-    document.getElementById("discord-username").textContent = data.discord_user.username;
-    document.getElementById("discord-tag").textContent = `#${data.discord_user.discriminator}`;
-
-    // Guild Tag (equipped tag)
-    if (data.discord_user.global_name) {
-      document.getElementById("discord-guildtag").textContent = data.discord_user.global_name;
-    } else {
-      document.getElementById("discord-guildtag").textContent = "";
-    }
-
-    // Status text + indicator
-    const status = data.discord_status;
-    const statusText = document.getElementById("discord-status-text");
-    const statusDot = document.getElementById("status-indicator");
-
-    statusText.textContent = `Status: ${status}`;
-    if (status === "online") { statusDot.style.background = "#23a55a"; }
-    if (status === "idle") { statusDot.style.background = "#f0b232"; }
-    if (status === "dnd") { statusDot.style.background = "#f23f43"; }
-    if (status === "offline") { statusDot.style.background = "#747f8d"; }
-
-    // Badges
-    const badgesContainer = document.getElementById("discord-badges");
-    badgesContainer.innerHTML = "";
-    if (data.discord_user.public_flags_array) {
-      data.discord_user.public_flags_array.forEach(flag => {
-        if (badgeMap[flag]) {
-          const img = document.createElement("img");
-          img.src = badgeMap[flag];
-          img.alt = flag;
-          badgesContainer.appendChild(img);
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Panel - Made By us0l</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-      });
-    }
 
-  } catch (err) {
-    console.error("Error loading presence", err);
-  }
-}
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow-x: hidden;
+        }
 
-loadDiscordPresence();
-setInterval(loadDiscordPresence, 30000);
-</script>
+        /* Animated Background Particles */
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            pointer-events: none;
+            animation: float 6s ease-in-out infinite;
+        }
 
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        /* Profile Section */
+        .profile-container {
+            text-align: center;
+            margin-bottom: 2rem;
+            z-index: 10;
+        }
+
+        .profile-pic {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
+            padding: 4px;
+            margin: 0 auto 1rem;
+            position: relative;
+            animation: profileGlow 2s ease-in-out infinite alternate;
+        }
+
+        .profile-pic::before {
+            content: "👤";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 4rem;
+            background: #1a1a2e;
+            width: calc(100% - 8px);
+            height: calc(100% - 8px);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @keyframes profileGlow {
+            0% { box-shadow: 0 0 20px rgba(255, 107, 107, 0.3); }
+            100% { box-shadow: 0 0 40px rgba(78, 205, 196, 0.6); }
+        }
+
+        .profile-name {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-bio {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Social Links Container */
+        .social-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            width: 100%;
+            max-width: 400px;
+            z-index: 10;
+        }
+
+        /* Social Link Buttons */
+        .social-link {
+            display: flex;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            border-radius: 15px;
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .social-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .social-link:hover::before {
+            left: 100%;
+        }
+
+        .social-link:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .social-icon {
+            font-size: 2rem;
+            margin-right: 1rem;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .social-text {
+            flex: 1;
+            text-align: left;
+        }
+
+        /* Platform Specific Colors */
+        .discord {
+            background: linear-gradient(135deg, #7289da, #5865f2);
+        }
+
+        .instagram {
+            background: linear-gradient(135deg, #405de6, #5851db, #833ab4, #c13584, #e1306c, #fd1d1d, #f56040, #f77737, #fcaf45, #ffdc80);
+        }
+
+        .tiktok {
+            background: linear-gradient(135deg, #ff0050, #00f2ea);
+        }
+
+        .snapchat {
+            background: linear-gradient(135deg, #fffc00, #fff700);
+            color: #000 !important;
+        }
+
+        .snapchat .social-icon,
+        .snapchat .social-text {
+            color: #000 !important;
+        }
+
+        .spotify {
+            background: linear-gradient(135deg, #1ed760, #1db954);
+        }
+
+        /* Pulse Animation for Special Links */
+        .discord {
+            animation: discordPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes discordPulse {
+            0%, 100% { box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); }
+            50% { box-shadow: 0 8px 32px rgba(114, 137, 218, 0.4); }
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .profile-name {
+                font-size: 2rem;
+            }
+            
+            .social-container {
+                max-width: 350px;
+                padding: 0 1rem;
+            }
+            
+            .social-link {
+                padding: 1rem 1.25rem;
+            }
+            
+            .social-icon {
+                font-size: 1.8rem;
+            }
+        }
+
+        /* Footer */
+        .footer {
+            position: absolute;
+            bottom: 20px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        /* Loading Animation */
+        .social-link {
+            opacity: 0;
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .social-link:nth-child(1) { animation-delay: 0.1s; }
+        .social-link:nth-child(2) { animation-delay: 0.2s; }
+        .social-link:nth-child(3) { animation-delay: 0.3s; }
+        .social-link:nth-child(4) { animation-delay: 0.4s; }
+        .social-link:nth-child(5) { animation-delay: 0.5s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Click Effect */
+        .social-link:active {
+            transform: scale(0.95);
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Particles -->
+    <div class="particles-container"></div>
+
+    <!-- Profile Section -->
+    <div class="profile-container">
+        <div class="profile-pic"></div>
+        <h1 class="profile-name">Your Name</h1>
+        <p class="profile-bio">Connect with me on all platforms ✨</p>
+    </div>
+
+    <!-- Social Links -->
+    <div class="social-container">
+        <a href="#" class="social-link discord" id="discord-link">
+            <div class="social-icon">🎮</div>
+            <div class="social-text">
+                <div>Join my Discord</div>
+                <small style="opacity: 0.8;">us0l</small>
+            </div>
+        </a>
+
+        <a href="https://instagram.com/loadedmagazines" target="_blank" class="social-link instagram">
+            <div class="social-icon">📸</div>
+            <div class="social-text">
+                <div>Follow on Instagram</div>
+                <small style="opacity: 0.8;">@yourusername</small>
+            </div>
+        </a>
+
+        <a href="https://tiktok.com/@.us0ll" target="_blank" class="social-link tiktok">
+            <div class="social-icon">🎵</div>
+            <div class="social-text">
+                <div>TikTok Videos</div>
+                <small style="opacity: 0.8;">@yourusername</small>
+            </div>
+        </a>
+
+        <a href="https://snapchat.com/add/cxm.uk" target="_blank" class="social-link snapchat">
+            <div class="social-icon">👻</div>
+            <div class="social-text">
+                <div>Add on Snapchat</div>
+                <small style="opacity: 0.8;">@cxm.uk</small>
+            </div>
+        </a>
+
+        <a href="https://open.spotify.com/playlist/12n5xqDyGmv1P7TUu2zqo7?si=f194ea3920384ebc" target="_blank" class="social-link spotify">
+            <div class="social-icon">🎧</div>
+            <div class="social-text">
+                <div>My Playlist</div>
+                <small style="opacity: 0.8;">Listen on Spotify</small>
+            </div>
+        </a>
+    </div>
+
+    <div class="footer">
+        <p>Made with ❤️ | Click any link to connect!</p>
+    </div>
+
+    <script>
+        // Create floating particles
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            
+            const size = Math.random() * 8 + 4;
+            particle.style.width = size + 'px';
+            particle.style.height = size + 'px';
+            particle.style.left = Math.random() * window.innerWidth + 'px';
+            particle.style.top = Math.random() * window.innerHeight + 'px';
+            particle.style.animationDelay = Math.random() * 6 + 's';
+            particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
+            
+            document.querySelector('.particles-container').appendChild(particle);
+            
+            setTimeout(() => {
+                particle.remove();
+            }, 8000);
+        }
+
+        // Generate particles
+        for (let i = 0; i < 15; i++) {
+            setTimeout(createParticle, i * 200);
+        }
+        setInterval(createParticle, 800);
+
+        // Discord username copy functionality
+        document.getElementById('discord-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Replace with your actual Discord username
+            const discordUsername = 'us0l';
+            
+            // Try to copy to clipboard
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(discordUsername).then(() => {
+                    showNotification('Discord username copied to clipboard! 📋');
+                }).catch(() => {
+                    showPrompt('Copy this Discord username:', discordUsername);
+                });
+            } else {
+                showPrompt('Copy this Discord username:', discordUsername);
+            }
+        });
+
+        // Show notification
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.textContent = message;
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: linear-gradient(135deg, #7289da, #5865f2);
+                color: white;
+                padding: 15px 25px;
+                border-radius: 10px;
+                font-weight: 600;
+                z-index: 1000;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+                transform: translateX(400px);
+                transition: transform 0.3s ease;
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(400px)';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // Show prompt for copying
+        function showPrompt(message, text) {
+            const result = prompt(message, text);
+            if (result) {
+                showNotification('Make sure to copy the username! 😊');
+            }
+        }
+
+        // Add click effects
+        document.querySelectorAll('.social-link').forEach(link => {
+            link.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px) scale(1.02)';
+            });
+            
+            link.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+            
+            link.addEventListener('click', function() {
+                // Create ripple effect
+                const ripple = document.createElement('div');
+                ripple.style.cssText = `
+                    position: absolute;
+                    border-radius: 50%;
+                    background: rgba(255, 255, 255, 0.3);
+                    pointer-events: none;
+                    transform: scale(0);
+                    animation: ripple 0.6s linear;
+                    left: 50%;
+                    top: 50%;
+                    width: 20px;
+                    height: 20px;
+                    margin-left: -10px;
+                    margin-top: -10px;
+                `;
+                
+                this.appendChild(ripple);
+                setTimeout(() => ripple.remove(), 600);
+            });
+        });
+
+        // Add ripple animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(20);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Customization functions
+        function toggleCustomizePanel() {
+            const panel = document.getElementById('customize-panel');
+            panel.classList.toggle('open');
+        }
+
+        function handleProfileUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const profileInner = document.getElementById('profile-pic-inner');
+                    profileInner.innerHTML = `<img src="${e.target.result}" alt="Profile" class="profile-pic-img">`;
+                    
+                    // Show preview
+                    const preview = document.getElementById('profile-preview');
+                    preview.innerHTML = `<img src="${e.target.result}" alt="Preview" class="preview-img">`;
+                    
+                    // Save to localStorage (but we're not using it in artifacts)
+                    showNotification('Profile picture updated! 🎉');
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function handleBackgroundUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const bgElement = document.getElementById('custom-background');
+                    const overlay = document.getElementById('bg-overlay');
+                    
+                    bgElement.src = e.target.result;
+                    bgElement.style.display = 'block';
+                    overlay.style.background = 'rgba(0, 0, 0, 0.4)'; // Darken overlay for better text visibility
+                    
+                    // Show preview
+                    const preview = document.getElementById('background-preview');
+                    preview.innerHTML = `<img src="${e.target.result}" alt="Background Preview" class="preview-img">`;
+                    
+                    showNotification('Background updated! 🌟');
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function resetCustomizations() {
+            // Reset profile picture
+            const profileInner = document.getElementById('profile-pic-inner');
+            profileInner.innerHTML = '<div class="profile-pic-placeholder">👤</div>';
+            
+            // Reset background
+            const bgElement = document.getElementById('custom-background');
+            const overlay = document.getElementById('bg-overlay');
+            bgElement.style.display = 'none';
+            overlay.style.background = 'rgba(0, 0, 0, 0.3)';
+            
+            // Clear previews
+            document.getElementById('profile-preview').innerHTML = '';
+            document.getElementById('background-preview').innerHTML = '';
+            
+            // Clear file inputs
+            document.getElementById('profile-upload').value = '';
+            document.getElementById('background-upload').value = '';
+            
+            showNotification('Reset to default! ✨');
+        }
+
+        // Close panel when clicking outside
+        document.addEventListener('click', function(event) {
+            const panel = document.getElementById('customize-panel');
+            const customizeBtn = document.querySelector('.customize-btn');
+            
+            if (panel.classList.contains('open') && 
+                !panel.contains(event.target) && 
+                !customizeBtn.contains(event.target)) {
+                panel.classList.remove('open');
+            }
+        });
+
+        // Party mode animation
+        const partyStyle = document.createElement('style');
+        partyStyle.textContent = `
+            @keyframes partyMode {
+                0%, 100% { filter: hue-rotate(0deg) brightness(1); }
+                25% { filter: hue-rotate(90deg) brightness(1.2); }
+                50% { filter: hue-rotate(180deg) brightness(0.8); }
+                75% { filter: hue-rotate(270deg) brightness(1.2); }
+            }
+        `;
+        document.head.appendChild(partyStyle);
+    </script>
 </body>
 </html>

@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="https://iconscout.com/icons/letter-w" type="image/x-icon" />
+    <meta http-equiv="Content-Security-Policy" content="form-action 'none';">
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>%VITE_APP_TITLE%</title>
+    <script>
+      // Check if VITE_APP_TITLE is null or empty and set a default value
+      const appTitle = '%VITE_APP_TITLE%';
+      if (!appTitle || appTitle.length === 0) {
+        document.title = 'THDMovie-Watch Movies&TV Shows Online Free';
+      } else {
+        document.title = appTitle;
+      }
+    </script>
+    <meta name="google-adsense-account" content="ca-pub-6199549323873133">
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
